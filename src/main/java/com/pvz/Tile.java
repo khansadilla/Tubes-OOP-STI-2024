@@ -37,6 +37,7 @@ public class Tile {
         if (!plant.isIsaquatic()){
             return true;
         }
+        return false;
     }
 
 }
