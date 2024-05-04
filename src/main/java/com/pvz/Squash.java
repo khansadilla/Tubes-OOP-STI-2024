@@ -5,6 +5,6 @@ public class Squash extends Plant{
     }
 
     public void selfDestruct() {
-        health = 0;
+        this.setHealth(0);
     }
 }
