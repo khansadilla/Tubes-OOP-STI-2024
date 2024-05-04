@@ -1,3 +1,4 @@
+package src.main.java.com.pvz;
 public class Point {
     private int x;
     private int y;
