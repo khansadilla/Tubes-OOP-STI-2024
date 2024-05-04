@@ -12,6 +12,10 @@ public class Tile {
     public Tile(int x, int y){
         this.position = new Point(x,y);
     }
+    public Tile (int x, int y, String u){
+        this.position=new Point(x,y);
+        type=u;
+    }
 
     public void setType(String type){
         this.type=type;
