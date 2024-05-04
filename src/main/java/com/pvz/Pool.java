@@ -17,7 +17,7 @@ public class Pool extends Tile {
         }
     }
     public boolean isPlantValid(Plant plant){
-        if (plant.isIsaquatic() && hasLilypad()){
+        if (plant.isAquatic() && hasLilypad()){
             return true;
         }
         return false;

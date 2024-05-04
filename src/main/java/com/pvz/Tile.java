@@ -34,7 +34,7 @@ public class Tile {
         PlantList.add(plant);
     }
     public boolean isPlantValid(Plant plant){
-        if (!plant.isIsaquatic()){
+        if (!plant.isAquatic()){
             return true;
         }
         return false;

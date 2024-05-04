@@ -7,17 +7,38 @@ public abstract class Plant {
     private int attack_speed;
     private int range;
     private int cooldown;
+    private Point position;
     private boolean is_aquatic;
 
-    public Plant(String name, int cost, int health, int attack_damage, int attack_speed, int range, int cooldown, boolean is_aquatic) {
-        this.name = name;
-        this.cost = cost;
-        this.health = health;
-        this.attack_damage = attack_damage;
-        this.attack_speed = attack_speed;
-        this.range = range;
-        this.cooldown = cooldown;
-        this.is_aquatic = is_aquatic;
+    // public Plant(String name, int cost, int health, int attack_damage, int attack_speed, int range, int cooldown, boolean is_aquatic) {
+    //     this.name = name;
+    //     this.cost = cost;
+    //     this.health = health;
+    //     this.attack_damage = attack_damage;
+    //     this.attack_speed = attack_speed;
+    //     this.range = range;
+    //     this.cooldown = cooldown;
+    //     this.is_aquatic = is_aquatic;
+    // }
+
+    public Plant(String name, 
+                 int cost, 
+                 int health, 
+                 int attack_damage, 
+                 int attack_speed, 
+                 int range, 
+                 int cooldown, 
+                 Point point, 
+                 boolean is_aquatic){
+        this.name=name;
+        this.cost=cost;
+        this.health=health;
+        this.attack_damage=attack_damage;
+        this.attack_speed=attack_speed;
+        this.range=range;
+        this.cooldown=cooldown;
+        this.position=point;
+        this.is_aquatic=is_aquatic;
     }
 
     public String getName() {
@@ -52,11 +73,15 @@ public abstract class Plant {
         return cooldown;
     }
 
-    public boolean isIsaquatic() {
+    public boolean isAquatic() {
         return is_aquatic;
     }
 
     public void attack() {
 
+    }
+    
+    public Point getPosition() {
+        return position;
     }
 }
