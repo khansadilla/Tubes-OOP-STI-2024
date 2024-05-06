@@ -1,4 +1,4 @@
-package src.main.java.com.pvz;
+package com.pvz;
 public class Lilypad extends Plant{
     private boolean isOccupied = false;
 
@@ -7,7 +7,7 @@ public class Lilypad extends Plant{
     }
 
     public boolean isOccupied() {
-        return true;
+        return isOccupied;
     }
 
     public void increasePlantHealth() {

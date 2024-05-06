@@ -1,4 +1,4 @@
-package src.main.java.com.pvz;
+package com.pvz;
 
 public class BucketHeadZombie extends Zombie{
     public BucketHeadZombie(String name, int health, int attackDamage, int attackSpeed, boolean isAquatic,  int movementSpeed)

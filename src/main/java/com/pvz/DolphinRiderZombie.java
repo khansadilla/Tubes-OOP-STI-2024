@@ -1,4 +1,4 @@
-package src.main.java.com.pvz;
+package com.pvz;
 
 public class DolphinRiderZombie extends Zombie {
     private boolean alreadyJumped;
@@ -11,5 +11,9 @@ public class DolphinRiderZombie extends Zombie {
     public void jumping()
     {
         
+    }
+
+    public boolean alreadyJumped() {
+        return alreadyJumped;
     }
 }

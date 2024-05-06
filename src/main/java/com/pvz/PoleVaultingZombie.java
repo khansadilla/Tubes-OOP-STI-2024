@@ -1,4 +1,4 @@
-package src.main.java.com.pvz;
+package com.pvz;
 
 public class PoleVaultingZombie extends Zombie{
     private boolean alreadyPoleVaulted;
@@ -10,5 +10,8 @@ public class PoleVaultingZombie extends Zombie{
     public void poleVaulting()
     {
         
+    }
+    public boolean hasAlreadyPoleVaulted() {
+        return alreadyPoleVaulted;
     }
 }

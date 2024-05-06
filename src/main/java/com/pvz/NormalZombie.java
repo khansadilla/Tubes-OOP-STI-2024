@@ -1,4 +1,4 @@
-package src.main.java.com.pvz;
+package com.pvz;
 
 public class NormalZombie extends Zombie{
     public NormalZombie()

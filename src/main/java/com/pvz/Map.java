@@ -1,7 +1,9 @@
-package src.main.java.com.pvz;
+package com.pvz;
 
 public class Map {
         private Tile[][] tiles;
+        private int width;
+        private int height;
     
         public Map(int width, int height) {
             //tiles = new Tile[height][width];
@@ -22,5 +24,17 @@ public class Map {
     
         public void setTile(int x, int y, Tile tile) {
             tiles[x][y] = tile;
+        }
+
+        public Tile[][] getTiles() {
+            return tiles;
+        }
+        
+        public int getWidth() {
+            return width;
+        }
+
+        public int getHeight() {
+            return height;
         }
 }

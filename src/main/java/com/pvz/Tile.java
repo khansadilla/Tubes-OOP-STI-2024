@@ -1,13 +1,9 @@
-package src.main.java.com.pvz;
-import java.util.List;
+package com.pvz;
 
-
-import java.util.ArrayList;
 public class Tile {
     private String type;
     private Point position;
-    private List<Zombie> ZombieList;
-    private List<Plant> PlantList;
+    private boolean isOccupied;
 
     public Tile(int x, int y){
         this.position = new Point(x,y);
@@ -23,15 +19,11 @@ public class Tile {
     public Point getPosition(){
         return position;
     }
-
     public String getType(){
         return type;
     }
     public boolean isOccupied(){
-        return ! PlantList.isEmpty();
-    }
-    public void addPlant(Plant plant){
-        PlantList.add(plant);
+        return isOccupied;
     }
     public boolean isPlantValid(Plant plant){
         if (!plant.isAquatic()){

@@ -1,4 +1,4 @@
-package src.main.java.com.pvz;
+package com.pvz;
 
 public class WizardZombie extends Zombie {
     private boolean alreadyChanged;
@@ -11,5 +11,9 @@ public class WizardZombie extends Zombie {
     public void changePlant(Plant plant)
     {
         
+    }
+
+    public boolean hasAlreadyChanged() {
+        return alreadyChanged;
     }
 }

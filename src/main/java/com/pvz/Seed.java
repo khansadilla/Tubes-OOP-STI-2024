@@ -1,1 +1,1 @@
-package src.main.java.com.pvz;
+package com.pvz;

@@ -1,4 +1,5 @@
-package src.main.java.com.pvz;
+package com.pvz;
+
 public abstract class Zombie {
     private String name;
     private int health;

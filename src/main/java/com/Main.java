@@ -1,10 +1,10 @@
-package src.main.java.com;
+package com;
 
-import src.main.java.com.pvz.GameEntity;
+import com.pvz.*;
 
 public class Main {
     public static void main(String args[]) {
-        GameEntity Game = new GameEntity();
+        // GameEntity Game = new GameEntity();
 
         
     }
