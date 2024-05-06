@@ -1,4 +1,6 @@
-package com.pvz;
+package com.pvz.plants;
+
+import com.pvz.Point;
 
 public class Kelp extends Plant{
     public Kelp(Point position) {

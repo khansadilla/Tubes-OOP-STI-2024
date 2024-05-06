@@ -1,4 +1,7 @@
-package com.pvz;
+package com.pvz.plants;
+
+import com.pvz.Point;
+
 public class Lilypad extends Plant{
     private boolean isOccupied = false;
 

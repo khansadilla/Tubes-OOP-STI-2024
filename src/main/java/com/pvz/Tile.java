@@ -1,5 +1,7 @@
 package com.pvz;
 
+import com.pvz.plants.Plant;
+
 public class Tile {
     private String type;
     private Point position;

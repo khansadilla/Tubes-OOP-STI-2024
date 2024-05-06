@@ -1,5 +1,6 @@
 package com.pvz;
 
+import com.pvz.plants.Plant;
 
 public class Pool extends Tile {
     private boolean hasLilypad;

@@ -1,4 +1,6 @@
-package com.pvz;
+package com.pvz.zombies;
+
+import com.pvz.plants.Plant;
 
 public class WizardZombie extends Zombie {
     private boolean alreadyChanged;

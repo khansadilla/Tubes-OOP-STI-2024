@@ -2,6 +2,9 @@ package com.pvz;
 
 import java.util.List;
 
+import com.pvz.plants.Plant;
+import com.pvz.zombies.Zombie;
+
 public class GameEntity {
     private List<Zombie> ZombieList;
     private List<Plant> PlantList;

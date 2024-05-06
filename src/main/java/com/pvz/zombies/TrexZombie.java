@@ -1,4 +1,4 @@
-package com.pvz;
+package com.pvz.zombies;
 
 public class TrexZombie extends Zombie {
     public TrexZombie()

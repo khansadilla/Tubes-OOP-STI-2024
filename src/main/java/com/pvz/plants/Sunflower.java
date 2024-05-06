@@ -1,4 +1,7 @@
-package com.pvz;
+package com.pvz.plants;
+
+import com.pvz.GameEntity;
+import com.pvz.Point;
 
 public class Sunflower extends Plant{
     public Sunflower(Point position) {

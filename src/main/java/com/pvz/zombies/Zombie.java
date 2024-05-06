@@ -1,4 +1,6 @@
-package com.pvz;
+package com.pvz.zombies;
+
+import com.pvz.Point;
 
 public abstract class Zombie {
     private String name;
