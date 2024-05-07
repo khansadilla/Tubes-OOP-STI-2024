@@ -4,9 +4,9 @@ import com.pvz.*;
 
 public class Main {
     public static void main(String args[]) {
-        // GameEntity Game = new GameEntity();
+        GameEntity game = new GameEntity();
 
-        
+        game.printMap();
     }
 }
 
