@@ -10,7 +10,7 @@ public class GameEntity {
     private List<Plant> PlantList;
     private Map map;
 
-    public GameEntity(Map map) {
+    public GameEntity() {
         this.map = new Map(5, 8); 
     }
 
@@ -39,12 +39,18 @@ public class GameEntity {
         }
     }
 
-    public void printZombieinTile() {
-
+    public void printZombieinTile(int row, int col) {       // this is very inefficient bro 
+        for (int i = 0; i < ZombieList.size(); i++) {       // maybe replace with hashmap
+            Zombie zombie = ZombieList.get(i);
+            if ((zombie.getPosition().getAbsis() == col) && 
+                 zombie.getPosition().getOrdinat() == row) {
+                    System.out.print(zombie.getName());
+            }
+        }        
     }
 
-    public void printPlantinTile() {
-        
+    public void printPlantinTile(int row, int col) {
+
     }
 
     public void addPlant(Plant plant){
