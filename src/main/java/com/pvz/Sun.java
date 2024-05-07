@@ -1,22 +1,31 @@
-package src.main.java.com.pvz;
+package com.pvz;
 
 public class Sun {
-    private int sun;
+    private static Sun instance;
+    private int value;
 
-    public Sun(){
-        sun=0;
+    private Sun(){
+        value=0;
     }
-    public void setSun(int x){
-        sun=x;
+
+    public static Sun getInstance() {
+        if (instance == null) {
+            instance = new Sun();
+        }
+        return instance;
+    }
+
+    public void setValue(int x){
+        value=x;
     }
     public void addSun(int x){
-        sun+=x;
+        value+=x;
     }
     public void decSun(int x){
-        sun-=x;
+        value-=x;
     }
-    public int getSun(){
-        return sun;
+    public int getValue(){
+        return value;
     }
     public void generateSun(int x){
         //generate pake thread
