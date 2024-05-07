@@ -2,7 +2,7 @@ package com.pvz;
 
 import com.pvz.plants.Plant;
 
-public class Tile {
+public abstract class Tile {
     private String type;
     private Point position;
     private boolean isOccupied;
