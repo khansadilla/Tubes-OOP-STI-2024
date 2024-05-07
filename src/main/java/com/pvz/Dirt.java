@@ -4,4 +4,5 @@ public class Dirt extends Tile {
         super(x, y);
         super.setType("Dirt");
     }
+    
 }
