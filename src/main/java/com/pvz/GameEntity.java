@@ -9,20 +9,16 @@ public class GameEntity {
     private List<Zombie> ZombieList;
     private List<Plant> PlantList;
     private Map map;
+    private Sun sun;
 
     public GameEntity() {
         this.map = new Map(5, 8); 
+        this.sun = Sun.getInstance();
     }
 
-    // public void printMap() {
-    //     for (Tile[] row : map.getTiles()) {
-    //         for (Tile element : row) {
-    //           // Do something with the element
-    //           System.out.print(element + " ");
-    //         }
-    //         System.out.println(); // Go to next line after each row
-    //       }
-    // }
+    public int getSun() {
+        return sun.getValue();
+    }
 
     public void printMap() {
         for (int row = 0; row < map.getHeight(); row++) {     // row
@@ -53,6 +49,7 @@ public class GameEntity {
 
     }
 
+    /* addPlant and spawnZombie will implement PlantFactory and ZombieFactory */
     public void addPlant(Plant plant){
         PlantList.add(plant);
     }
