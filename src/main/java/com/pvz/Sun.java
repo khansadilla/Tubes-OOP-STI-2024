@@ -1,3 +1,5 @@
+import java.lang.Thread;
+import java.util.Random;
 package src.main.java.com.pvz;
 
 public class Sun implements Runnable{
@@ -19,9 +21,13 @@ public class Sun implements Runnable{
         return sun;
     }
     public void generateSun(int x){
-        sun+=25;
-        public void run(){
-            Thread.sleep((long) Math.random()*(5000)+5000);
-        } thread.start();
+        while (true){
+            try{
+                Thread.sleep(Math.random()*5000+5000);
+                sun+=25;
+            }catch (InterruptedException e){
+                e.printStackTrace();
+            }
+        }Thread.start();
     }
 }
