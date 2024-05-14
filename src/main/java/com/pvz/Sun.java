@@ -1,6 +1,6 @@
 package src.main.java.com.pvz;
 
-public class Sun {
+public class Sun implements Runnable{
     private int sun;
 
     public Sun(){
@@ -19,6 +19,9 @@ public class Sun {
         return sun;
     }
     public void generateSun(int x){
-        //generate pake thread
+        sun+=25;
+        public void run(){
+            Thread.sleep((long) Math.random()*(5000)+5000);
+        } thread.start();
     }
 }
