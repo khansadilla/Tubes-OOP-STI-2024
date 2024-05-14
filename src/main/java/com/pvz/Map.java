@@ -1,18 +1,18 @@
 package com.pvz;
 
 public class Map {
-        private Tile[][] tiles;
+        private Tile[][] tiles; // Tiles[row][column]
         private int width;
         private int height;
     
-        public Map(int width, int height) {
+        public Map(int height, int width) {     // change to factory?
             //tiles = new Tile[height][width];
-            for (int i = 0; i < height; i++) {
-                for (int j = 0; j < width; j++) {
-                    if (i < 2 && i > 4) {   
-                        setTile(i, j, new Tile(i, j, "Grass"));
+            for (int row = 0; row < width; row++) {
+                for (int col = 0; col < height; col++) {
+                    if (row < 2 && row > 3) {   // row 0, 1, 4, 5 = dirt
+                        setTile(row, col, new Dirt(row, col));
                     } else {
-                        setTile(i, j, new Tile(i, j, "Water"));
+                        setTile(row, col, new Pool(row, col));
                     }
                 }
             }
