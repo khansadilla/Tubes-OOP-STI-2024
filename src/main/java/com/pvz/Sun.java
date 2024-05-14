@@ -1,6 +1,8 @@
-package com.pvz;
+import java.lang.Thread;
+import java.util.Random;
+package src.main.java.com.pvz;
 
-public class Sun {
+public class Sun implements Runnable{
     private static Sun instance;
     private int value;
 
@@ -28,6 +30,13 @@ public class Sun {
         return value;
     }
     public void generateSun(int x){
-        //generate pake thread
+        while (true){
+            try{
+                Thread.sleep(Math.random()*5000+5000);
+                value+=25;
+            }catch (InterruptedException e){
+                e.printStackTrace();
+            }
+        }Thread.start();
     }
 }
