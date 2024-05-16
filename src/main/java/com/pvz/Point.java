@@ -14,15 +14,19 @@ public class Point {
     }
 
     public void setAbsis(int x){
+        /* sets X coordinate */
         this.x=x;
     }
     public void setOrdinat(int y){
+        /* sets Y coordinate */
         this.y=y;
     }
     public int getAbsis(){
+        /* returns X coordinate */
         return x;
     }
     public int getOrdinat(){
+        /* returns Y coordinate */
         return y;
     }
     public void changePoint(int x, int y){

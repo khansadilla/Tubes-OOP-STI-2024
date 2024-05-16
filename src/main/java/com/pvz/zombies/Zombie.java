@@ -65,4 +65,5 @@ public abstract class Zombie {
     {
         this.movementSpeed=movementSpeed;
     }
+    
 }
