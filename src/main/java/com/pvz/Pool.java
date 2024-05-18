@@ -1,11 +1,11 @@
 package com.pvz;
 
+import com.pvz.plants.Lilypad;
 import com.pvz.plants.Plant;
 
 public class Pool extends Tile {
     private boolean hasLilypad;
-    public Pool(int x, int y){
-        super(x,y);
+    public Pool(){
         super.setType("Pool");
         hasLilypad=false;
     }
@@ -18,9 +18,7 @@ public class Pool extends Tile {
         }
     }
     public boolean isPlantValid(Plant plant){
-        if (plant.isAquatic() && hasLilypad()){
-            return true;
-        }
+        if((plant instanceof Lilypad && !hasLilypad) || plant.isAquatic() && hasLilypad()) return true;
         return false;
     }
     

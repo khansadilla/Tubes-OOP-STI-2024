@@ -1,10 +1,9 @@
 package com.pvz.plants;
 
-import com.pvz.Point;
 
 public class Sunbeans extends Plant{
-    public Sunbeans(Point position) {
-        super("Sun beans", 175, 100,25, 4, -1, 20, position, false);
+    public Sunbeans() {
+        super("Sun beans", 175, 100,25, 4, -1, 20, false);
     }
 
     public void generateSun() {

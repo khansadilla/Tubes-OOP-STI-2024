@@ -1,8 +1,8 @@
 package com.pvz.zombies;
 
 public class ConeheadZombie extends Zombie{
-    public ConeheadZombie()
+    public ConeheadZombie(long timeCreated)
     {
-        super("Conehead Zombie", 250, 100, 1, false, 5);
+        super("Conehead Zombie", 250, 100, 1, false, 5,timeCreated);
     }
 }

@@ -1,5 +1,6 @@
 package com.pvz;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.List.*;
@@ -8,21 +9,20 @@ import com.pvz.plants.Plant;
 import com.pvz.zombies.Zombie;
 
 public class Map {
-        private Tile[][] tiles; 
+        private Tile tiles[][]; 
         // private List<List<Tile>> tileList;
         private int width;
         private int height;
-    
+        Timer time=new Timer();
         public Map(int height, int width) {     // change to factory?
             this.width = width;
             this.height = height;
-            tiles = new Tile[height][width];
-            for (int row = 0; row < width-1; row++) {
-                for (int col = 0; col < height-1; col++) {
+            for (int row = 0; row < height; row++) {
+                for (int col = 0; col < width; col++) {
                     if (row < 2 || row > 3) {   // row 0, 1, 4, 5 = dirt
-                        setTile(col, row, new Dirt(row, col));
+                        tiles[row][col]=new Dirt();
                     } else {
-                        setTile(col, row, new Pool(row, col));
+                        tiles[row][col]=new Pool();
                     }
                 }
             }
@@ -48,43 +48,85 @@ public class Map {
             return height;
         }
 
+        public void update()
+        {
+            checkAttackZombie();
+            checkAttackPlant();
+            checkSkill();
+            checkMove();
+        }
+
+        public void checkMove()
+        {
+            for (int row = 0; row < height; row++) {
+                for (int col = 1; col < width-1; col++)
+                {
+                    List<Zombie> movZombies=tiles[row][col].moveZombie();
+                    if(!movZombies.isEmpty())
+                    {
+                        for (Zombie zombie : movZombies)
+                        {
+                            tiles[row][col-1].addZombie(zombie);
+                        }
+                    }
+                }
+            }
+        }
+        
+
+        public void checkAttackZombie()
+        {
+            for (int row = 0; row < height; row++) {
+                for (int col = 1; col < width-1; col++)
+                {
+                    if(tiles[row][col].isOccupiedByPlant() && tiles[row][col].isOccupiedByZombie())
+                    {
+                        tiles[row][col].zombieAttack();
+                    }
+                }
+            }
+        }
+
+        public void checkAttackPlant()
+        {
+            for (int row = 0; row < height; row++) {
+                Tile attackZombieAt=null;
+                int j;
+                for (j=0; j<width; j++)
+                    {
+                        if(tiles[row][j].isOccupiedByZombie()) {attackZombieAt=tiles[row][j]; break;}
+                    }
+                for (int col = 1; col < width-1; col++)
+                {
+                    
+                    if(tiles[row][col].isOccupiedByPlant())
+                    {
+                        Plant plant= tiles[row][col].getPlant();
+                        if(plant.getRange()>=j-col && time.Attack(plant.getSinceLastAttack(), plant.getAttackSpeed()))
+                        {
+                            for (Zombie zombie : attackZombieAt.getListZombie())
+                            {
+                                plant.attack(zombie);
+                            }
+                            attackZombieAt.getListZombie().removeIf(zombie -> zombie.getHealth()<=0);
+                        }
+                    }
+                }
+            }
+        }
     public void printMap(GameEntity game) {
         Map map = game.getMap();
         for (int row = 0; row < map.getHeight(); row++) {     // row
             for (int col = 0; col < map.getWidth(); col++) {  // column
-                Point tempPoint = new Point(row, col);
-                System.out.print("[ ");
-                    printZombieinTile(game, tempPoint);
-                    printPlantinTile(game, tempPoint);
-                System.out.print(" ] ");
-                if (col == map.getWidth()-1) {
-                    System.out.print("%n");
-                }
+                //Point tempPoint = new Point(row, col);
+                //System.out.print("[ ");
+                //    printZombieinTile(game, tempPoint);
+                //    printPlantinTile(game, tempPoint);
+                //System.out.print(" ] ");
+                //if (col == map.getWidth()-1) {
+                //    System.out.print("%n");
+                //}
             }
         }
-    }
-
-    public void printZombieinTile(GameEntity game, Point tempPoint) {       // this is very inefficient bro 
-        HashMap<Point, List<Zombie>> ZombieList = game.getZombieList();
-        if (ZombieList.get(tempPoint) != null){   
-            for (Zombie zombie : ZombieList.get(tempPoint)) {
-                System.out.print(zombie.getName().charAt(0));   // replace with zombie code
-                System.out.println(" ");
-            }
-        } else {
-            System.out.println(" ");
-        }
-    }
-
-    public boolean printPlantinTile(GameEntity game, Point tempPoint) {
-        HashMap<Point, List<Plant>> PlantList = game.getPlantList();
-        if (!PlantList.get(tempPoint).isEmpty()){   
-            for (Plant plant : PlantList.get(tempPoint)) {
-                System.out.print(plant.getName().charAt(0));   // replace with plant code
-                System.out.println(" ");
-            }
-            return true;
-        }
-        return false;
     }
 }
