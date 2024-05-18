@@ -50,9 +50,7 @@ public class Main {
         
 
         GameEntity game = new GameEntity();
-        Timer timer = Timer.getInstance();
         Scanner scanner = new Scanner(System.in);
-        Main main = new Main();
 
         Thread thread = new Thread(() -> {
             try {

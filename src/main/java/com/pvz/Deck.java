@@ -1,15 +1,31 @@
 package com.pvz;
 
-import java.util.HashMap;
-import java.util.List;
+import java.util.ArrayList;
 
-import com.pvz.plants.Seed;
+import com.pvz.plants.*;
 
 public class Deck {
-    private List<Seed> seeds;
+    private ArrayList<Seed> seeds;
+    private PlantFactory plantFactory;
 
-    public void Plant(String type) {
-        
+    public Plant Plant(String type, Point position)  {
+        try {
+            for (Seed seed : seeds) {
+                if (seed.getType().getName().equals(type)) {
+                    if (!seed.isOnCooldown()) {
+                        Plant plant = plantFactory.create(System.currentTimeMillis(), type, position);
+                        return plant;
+                    } else {
+                        System.out.println("Plant is on cooldown");
+                    }
+                } else {
+                    System.out.println("Plant not found");
+                }
+            }
+        } catch (Exception e) {
+            System.out.println(e.getMessage());
+        }
+        return null;
     }
 
     public void Dig(Point position) {

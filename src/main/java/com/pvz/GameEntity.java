@@ -9,7 +9,8 @@ import com.pvz.zombies.Zombie;
 
 public class GameEntity {
     private HashMap<Point, List<Zombie>> ZombieList;
-    private HashMap<Point, List<Plant>> PlantList;
+    private HashMap<Point, Plant> alivePlants;
+    private Deck deck;
     private Map map;
     private Sun sun;
     private Timer timer;
@@ -23,9 +24,9 @@ public class GameEntity {
         this.random = new Random();
         this.isGameOver = false;
         this.ZombieList = new HashMap<>();
-        this.PlantList = new HashMap<>();
+        this.alivePlants = new HashMap<>();
         ZombieList.clear();
-        PlantList.clear();
+        alivePlants.clear();
     }
 
     public int getSun() {
@@ -44,16 +45,17 @@ public class GameEntity {
         return ZombieList;
     }
 
-    public HashMap<Point, List<Plant>> getPlantList() {
-        return PlantList;
+    public HashMap<Point, Plant> getAlivePlants() {
+        return alivePlants;
     }
     
     public boolean isGameOver() {
         return isGameOver;
     }
 
-    public void plant(Point position, Plant plant) {
-        // PlantList.get(position).add(plant);
+    public void plant(Point position, String type) {
+        Plant plant = deck.Plant(type, position);
+        alivePlants.put(position, plant);
     }
 
     public void spawnZombie() {
@@ -76,11 +78,10 @@ public class GameEntity {
                 // zombie.move();
             }
         }
+        
         // update plants
-        for (List<Plant> plants : PlantList.values()) {
-            for (Plant plant : plants) {
-                // plant.update();
-            }
+        for (Plant plants : alivePlants.values()) {
+            // plant.update();
         }
     }
 }

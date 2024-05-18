@@ -2,7 +2,6 @@ package com.pvz;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.List.*;
 
 import com.pvz.plants.Plant;
 import com.pvz.zombies.Zombie;
@@ -76,12 +75,10 @@ public class Map {
     }
 
     public void printPlantinTile(GameEntity game, Point tempPoint) {
-        HashMap<Point, List<Plant>> PlantList = game.getPlantList();
-        if (PlantList.get(tempPoint) != null){   
-            for (Plant plant : PlantList.get(tempPoint)) {
-                System.out.print(plant.getName().charAt(0));   // replace with plant code
+        HashMap<Point, Plant> plant = game.getAlivePlants();
+        if (plant.get(tempPoint) != null){   
+                System.out.print(plant.get(tempPoint).getName().charAt(0));   // replace with plant code
                 System.out.println(" ");
-            }
         } else {
             System.out.print(" ");
         }
