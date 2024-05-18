@@ -1,15 +1,14 @@
-package com.pvz;
+package com.pvz.plants;
 
 public class Seed {     
-    private String type;
+    private PlantType type;
     private boolean onCooldown;
-    private int cooldown;
 
-    public Seed(String type) {
+    public Seed(PlantType type) {
         this.type = type;
     }
 
-    public String getType() {
+    public PlantType getType() {
         return type;
     }
 
@@ -18,6 +17,6 @@ public class Seed {
     }
 
     public int getCooldown() {
-        return cooldown;
+        return type.getCooldown();
     }
 }

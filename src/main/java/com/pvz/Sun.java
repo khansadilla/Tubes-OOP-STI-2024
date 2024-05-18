@@ -1,13 +1,22 @@
-import java.lang.Thread;
-import java.util.Random;
-package src.main.java.com.pvz;
+package com.pvz;
 
-public class Sun implements Runnable{
+import java.util.Random;
+
+public class Sun {
     private static Sun instance;
     private int value;
+    private Random random;
+    private long lastSunTime;
+    private int cooldown;
+    private long currentTime;
+    private Timer timer = Timer.getInstance();
 
     private Sun(){
-        value=0;
+        setValue(0);
+        random = new Random();
+        lastSunTime = timer.getCurrentTime();
+        currentTime = timer.getCurrentTime();
+        setRandomCooldown();
     }
 
     public static Sun getInstance() {
@@ -29,14 +38,22 @@ public class Sun implements Runnable{
     public int getValue(){
         return value;
     }
-    public void generateSun(int x){
-        while (true){
-            try{
-                Thread.sleep(Math.random()*5000+5000);
-                value+=25;
-            }catch (InterruptedException e){
-                e.printStackTrace();
-            }
-        }Thread.start();
+
+    public void generateSun(){
+        currentTime = timer.getCurrentTime();
+        if (currentTime - lastSunTime > getCooldown() * 1000) {
+            lastSunTime = currentTime;
+            addSun(25);
+            setRandomCooldown();
+        }
+    }
+
+    public int getCooldown() {
+        return cooldown;
+    }
+
+    public void setRandomCooldown() {
+        cooldown = random.nextInt(6) + 5;
+        System.out.println("Sun cooldown: " + cooldown);
     }
 }

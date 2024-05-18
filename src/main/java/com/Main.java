@@ -13,6 +13,12 @@ public class Main {
     public static final String PURPLE = "\033[0;35m";  // PURPLE
     public static final String CYAN = "\033[0;36m";    // CYAN
     public static final String WHITE = "\033[0;37m";   // WHITE
+    public static int seconds = 0;
+    public static void print() {
+        System.out.println("seconds: "+ seconds);
+        System.out.println("current time main: " + Timer.getInstance().getCurrentTime()/1000);
+        seconds++;
+    }
     public static void main(String args[]) {
         System.out.println(" ");
         String gameTitle = 
@@ -44,14 +50,14 @@ public class Main {
         
 
         GameEntity game = new GameEntity();
-        Timer timer = new Timer();
         Scanner scanner = new Scanner(System.in);
-        Main main = new Main();
 
         Thread thread = new Thread(() -> {
             try {
                 while (true && !game.isGameOver()) {
-                    // game.update();
+                    game.update();
+                    game.getMap().printMap(game);
+                    // Main.print();
                     Thread.sleep(1000);
                 }
             } catch (InterruptedException e) {
@@ -70,9 +76,12 @@ public class Main {
                 case "exit":
                     System.out.println("Game is over.");
                     isRunning = false;
+                    scanner.close();
+                    thread.interrupt();
+                    break;
                     // game.isGameOver = true;
-                case "print":
-                    game.getMap().printMap(game);
+                case "start":
+                    System.out.println("Game is starting.");
                 case "sun":
                     System.out.println("Sun: " + game.getSun());
                 default:

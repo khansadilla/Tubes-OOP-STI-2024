@@ -1,11 +1,12 @@
 package com.pvz.zombies;
 
 import com.pvz.Interface.Factory;
+import com.pvz.Point;
 import com.pvz.ExceptionHandling.*;;
 
-public final class ZombieFactory implements Factory<Zombie> {
+public class ZombieFactory implements Factory<Zombie> {
     @Override
-    public Zombie create(int timeCreated, String type) throws IllegalTypeException {
+    public Zombie create(long timeCreated, String type, Point position) throws IllegalTypeException {
         switch (type) {
             case "Normal Zombie":
                 return new NormalZombie();
