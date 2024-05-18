@@ -13,8 +13,11 @@ public class Main {
     public static final String PURPLE = "\033[0;35m";  // PURPLE
     public static final String CYAN = "\033[0;36m";    // CYAN
     public static final String WHITE = "\033[0;37m";   // WHITE
+    public static int seconds = 0;
     public static void print() {
-        System.out.println("Hello, World!");
+        System.out.println("seconds: "+ seconds);
+        System.out.println("current time main: " + Timer.getInstance().getCurrentTime()/1000);
+        seconds++;
     }
     public static void main(String args[]) {
         System.out.println(" ");
@@ -47,7 +50,7 @@ public class Main {
         
 
         GameEntity game = new GameEntity();
-        Timer timer = new Timer();
+        Timer timer = Timer.getInstance();
         Scanner scanner = new Scanner(System.in);
         Main main = new Main();
 

@@ -10,12 +10,12 @@ public class Sun {
     private long lastSunTime;
     private int cooldown;
     private long currentTime;
-    private Timer timer = new Timer();
+    private Timer timer = Timer.getInstance();
 
     private Sun(){
         setValue(0);
         random = new Random();
-        lastSunTime = Instant.now().toEpochMilli();
+        lastSunTime = timer.getCurrentTime();
         currentTime = timer.getCurrentTime();
         setRandomCooldown();
     }
@@ -41,6 +41,7 @@ public class Sun {
     }
 
     public void generateSun(){
+        currentTime = timer.getCurrentTime();
         if (currentTime - lastSunTime > getCooldown() * 1000) {
             lastSunTime = currentTime;
             addSun(25);
@@ -54,5 +55,6 @@ public class Sun {
 
     public void setRandomCooldown() {
         cooldown = random.nextInt(6) + 5;
+        System.out.println("Sun cooldown: " + cooldown);
     }
 }
