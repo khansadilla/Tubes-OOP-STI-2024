@@ -4,6 +4,9 @@ import com.pvz.*;
 import java.util.Scanner;
 
 public class Main {
+    public static void print() {
+        System.out.println("Hello, World!");
+    }
     public static void main(String args[]) {
         GameEntity game = new GameEntity();
         Timer timer = new Timer();
@@ -13,7 +16,9 @@ public class Main {
         Thread thread = new Thread(() -> {
             try {
                 while (true && !game.isGameOver()) {
-                    // game.update();
+                    game.update();
+                    game.getMap().printMap(game);
+                    // Main.print();
                     Thread.sleep(1000);
                 }
             } catch (InterruptedException e) {
@@ -32,9 +37,12 @@ public class Main {
                 case "exit":
                     System.out.println("Game is over.");
                     isRunning = false;
+                    scanner.close();
+                    thread.interrupt();
+                    break;
                     // game.isGameOver = true;
-                case "print":
-                    game.getMap().printMap(game);
+                case "start":
+                    System.out.println("Game is starting.");
                 case "sun":
                     System.out.println("Sun: " + game.getSun());
                 default:

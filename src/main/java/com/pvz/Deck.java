@@ -3,10 +3,12 @@ package com.pvz;
 import java.util.HashMap;
 import java.util.List;
 
-public class Deck {
-    // private HashMap<> seeds;
+import com.pvz.plants.Seed;
 
-    public void Plant(Seed seed) {
+public class Deck {
+    private List<Seed> seeds;
+
+    public void Plant(String type) {
         
     }
 

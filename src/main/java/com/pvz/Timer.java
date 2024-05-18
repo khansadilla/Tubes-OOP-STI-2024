@@ -5,6 +5,10 @@ public class Timer {
     private static long currentTime = System.currentTimeMillis();
     private static long elapsedTime;
     
+    public Timer() {
+        startTime = currentTime;
+    }
+
     public long getStartTime() {
         return startTime;
     }
@@ -14,7 +18,7 @@ public class Timer {
     }
 
     public long getElapsedTime() {
-        elapsedTime = currentTime - startTime;
+        elapsedTime = (currentTime - startTime);
         return elapsedTime;
     }
 }
