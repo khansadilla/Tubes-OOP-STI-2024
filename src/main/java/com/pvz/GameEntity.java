@@ -3,10 +3,9 @@ package com.pvz;
 import java.util.List;
 import java.util.Random;
 
-import com.pvz.plants.Peashooter;
-import com.pvz.plants.Plant;
-import com.pvz.zombies.BucketHeadZombie;
-import com.pvz.zombies.Zombie;
+import com.pvz.plants.*;
+import com.pvz.zombies.*;
+import com.pvz.ExceptionHandling.*;
 
 public class GameEntity {
     private Deck deck;
@@ -16,12 +15,19 @@ public class GameEntity {
     private boolean isGameOver;
     private Random random;
     private float spawnRoll;
+    private String[] poolTypeZombies = {"Ducky Tube Zombie", "Dolphin Rider Zombie"};
+    private String[] dirtTypeZombies = {"Normal Zombie", "Conehead Zombie", "BucketheadZombie",
+                                        "Digger Zombie", "Hulk Zombie", "Pole Vaulting Zombie", 
+                                        "Trex Zombie", "Wizard Zombie"};
+    private ZombieFactory zombieFactory;
 
     public GameEntity() {
         this.map = new Map(6, 11); 
         this.sun = Sun.getInstance();
         this.random = new Random();
         this.isGameOver = false;
+        this.timer = Timer.getInstance();
+        this.zombieFactory = new ZombieFactory();
     }
 
     public int getSun() {
@@ -54,4 +60,39 @@ public class GameEntity {
     //         // zombie.move();
     //     } 
     // }
+
+    public void spawnZombieinRow() {
+        for (int i = 0; i < map.getHeight(); i++) {
+            Tile tile = map.getTile(i , 10);
+            spawnRoll = random.nextFloat(); // 0.0 < spawnRoll < 1.0
+
+            if (spawnRoll < 0.3) {  // 30% chance
+                if (tile instanceof Pool) {
+                    tile.addZombie(spawnZombiePool());
+                } else {
+                    tile.addZombie(spawnZombieDirt());
+                }
+            }
+        }
+    }
+
+    public Zombie spawnZombiePool() {
+        try {
+            int roll = random.nextInt(2); // 0 <= roll < 7
+            return zombieFactory.create(timer.getCurrentTime(), poolTypeZombies[roll]);
+        } catch (IllegalTypeException e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
+
+    public Zombie spawnZombieDirt() { 
+        try {
+            int roll = random.nextInt(8); // 0 <= roll < 8
+            return zombieFactory.create(timer.getCurrentTime(), dirtTypeZombies[roll]);
+        } catch (IllegalTypeException e) {
+            System.out.println(e.getMessage());
+            return null;
+        }
+    }
 }
