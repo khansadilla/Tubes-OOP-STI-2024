@@ -65,7 +65,7 @@ public class Main {
                 while (!game.isGameOver()) {
                     game.spawnZombieinRow();
                     game.getMap().checkAttackZombie();
-                    game.getMap().checkMove();
+                    game.getMap().checkMove(game);
                     Thread.sleep(1000); // Perbarui setiap detik
                 }
             } catch (InterruptedException e) {
@@ -100,7 +100,6 @@ public class Main {
             String userInput = scanner.nextLine();
             switch (userInput) {
                 case "0":
-                    System.out.println("Game is over.");
                     isRunning = false;
                     break;
                 case "1":
@@ -188,4 +187,5 @@ public class Main {
         }
 
     }
+
 }
