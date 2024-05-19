@@ -64,7 +64,7 @@ public class Main {
                 while (!game.isGameOver()) {
                     game.spawnZombieinRow();
                     game.getMap().checkAttackZombie();
-                    game.getMap().checkMove();
+                    game.getMap().checkMove(game);
                     Thread.sleep(1000); // Perbarui setiap detik
                 }
             } catch (InterruptedException e) {
@@ -95,15 +95,11 @@ public class Main {
 
         // Thread utama untuk menerima input dari pengguna
         boolean isRunning = true;
-        while (isRunning) {
+        while (isRunning && !game.isGameOver()) {
             String userInput = scanner.nextLine();
             switch (userInput) {
                 case "0":
-                    System.out.println("Game is over.");
                     isRunning = false;
-                    gameThread.interrupt();
-                    zombieThread.interrupt();
-                    plantThread.interrupt();
                     break;
                 case "1":
                     System.out.println("Game is starting.");
@@ -120,5 +116,13 @@ public class Main {
             }
         }
         scanner.close();
+        if (game.isGameOver() || !isRunning)
+        {
+            System.out.println("Game Over!");
+            gameThread.interrupt();
+            zombieThread.interrupt();
+            plantThread.interrupt();
+        }
     }
+
 }

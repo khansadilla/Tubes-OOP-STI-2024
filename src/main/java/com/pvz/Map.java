@@ -52,19 +52,17 @@ public class Map {
         return height;
     }
 
-    public void update() {
-        checkAttackZombie();
-        checkAttackPlant();
-        checkMove();
-    }
-
-    public void checkMove() {
+    public void checkMove(GameEntity game) {
         for (int row = 0; row < height; row++) {
-            for (int col = 1; col < width; col++) {
+            for (int col = 0; col < width; col++) {
                 List<Zombie> movZombies = tiles[row][col].moveZombie();
                 if (!movZombies.isEmpty()) {
-                    for (Zombie zombie : movZombies) {
-                        tiles[row][col - 1].addZombie(zombie);
+                    if (col==0) {game.setGameOver(true); return;} 
+                    else
+                    {
+                        for (Zombie zombie : movZombies) {
+                            tiles[row][col - 1].addZombie(zombie);
+                        }
                     }
                 }
             }
