@@ -1,6 +1,5 @@
 package com.pvz.plants;
-
-import com.pvz.Point;
+import com.pvz.zombies.*;
 
 public abstract class Plant {
     private String name;
@@ -10,8 +9,8 @@ public abstract class Plant {
     private int attack_speed;
     private int range;
     private int cooldown;
-    private Point position;
     private boolean is_aquatic;
+    private long sinceLastAttack;
 
     // public Plant(String name, int cost, int health, int attack_damage, int attack_speed, int range, int cooldown, boolean is_aquatic) {
     //     this.name = name;
@@ -30,8 +29,7 @@ public abstract class Plant {
                  int attack_damage, 
                  int attack_speed, 
                  int range, 
-                 int cooldown, 
-                 Point point, 
+                 int cooldown,
                  boolean is_aquatic){
         this.name=name;
         this.cost=cost;
@@ -40,8 +38,8 @@ public abstract class Plant {
         this.attack_speed=attack_speed;
         this.range=range;
         this.cooldown=cooldown;
-        this.position=point;
         this.is_aquatic=is_aquatic;
+        sinceLastAttack=0;
     }
 
     public String getName() {
@@ -80,11 +78,17 @@ public abstract class Plant {
         return is_aquatic;
     }
 
-    public void attack() {
-
+    public void attack(Zombie zombie) {
+        zombie.setHealth(zombie.getHealth()-attack_damage);
     }
-    
-    public Point getPosition() {
-        return position;
+
+    public long getSinceLastAttack()
+    {
+        return sinceLastAttack;
+    }
+
+    public void setSinceLastAttack(long sinceLastAttack)
+    {
+        this.sinceLastAttack=sinceLastAttack;
     }
 }

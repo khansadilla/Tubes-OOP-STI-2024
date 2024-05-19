@@ -1,15 +1,16 @@
 package com.pvz.zombies;
-
-import com.pvz.Point;
-
+import com.pvz.plants.*;
+import com.pvz.Timer;
 public abstract class Zombie {
     private String name;
     private int health;
     private int attackDamage;
     private int attackSpeed;
     private boolean isAquatic;
-    private Point position;
     private int movementSpeed;
+    private long timeCreated;
+    private long sinceLastAttack;
+    Timer time=new Timer();
     
     public Zombie(String name, int health, int attackDamage, int attackSpeed, boolean isAquatic,  int movementSpeed)
     {
@@ -19,8 +20,14 @@ public abstract class Zombie {
         this.attackSpeed=attackSpeed;
         this.isAquatic=isAquatic;
         this.movementSpeed=movementSpeed;
+        sinceLastAttack=0;
+        timeCreated=time.getCurrentTime();
     }
 
+    public void attack(Plant plant)
+    {
+        plant.setHealth(plant.getHealth()-attackDamage);
+    }
     public String getName()
     {
         return name;
@@ -49,14 +56,6 @@ public abstract class Zombie {
     {
         return isAquatic;
     }
-    public Point getPosition()
-    {
-        return position;
-    }
-    public void setPosition(Point point)
-    {
-        this.position=point;
-    }
     public int getMovementSpeed()
     {
         return movementSpeed;
@@ -64,6 +63,24 @@ public abstract class Zombie {
     public void setMovementSpeed(int movementSpeed)
     {
         this.movementSpeed=movementSpeed;
+    }
+    public long getTimeCreated()
+    {
+        return timeCreated;
+    }
+    public void setTimeCreated(long timeCreated)
+    {
+        this.timeCreated=timeCreated;
+    }
+
+    public long getSinceLastAttack()
+    {
+        return sinceLastAttack;
+    }
+
+    public void setSinceLastAttack(Long sinceLastAttack)
+    {
+        this.sinceLastAttack=sinceLastAttack;
     }
     
 }

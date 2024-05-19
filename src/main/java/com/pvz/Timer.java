@@ -29,5 +29,16 @@ public class Timer {
     public long getElapsedTime() {
         elapsedTime = (currentTime - startTime);
         return elapsedTime;
+    }    
+    public boolean zombieMove(long timeCreated)
+    {
+        if(elapsedTime%5000==0) return true;
+        return false;
     }
+    public boolean Attack(long sinceLastAttack, int attackSpeed)
+    {
+        if(getCurrentTime()-sinceLastAttack>=attackSpeed*1000 || sinceLastAttack==0) return true;
+        return false;
+    }
+
 }

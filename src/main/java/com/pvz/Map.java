@@ -1,7 +1,9 @@
 package com.pvz;
 
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
+import java.util.List.*;
 
 import com.pvz.plants.Plant;
 import com.pvz.zombies.Zombie;
@@ -29,26 +31,99 @@ public class Map {
         }
     }
     
-    public Tile getTile(int x, int y) {
-        return tiles[x][y];
-    }
+        public Tile getTile(int x, int y) {
+            return tiles[x][y];
+        }
     
     public void setTile(int row, int col, Tile tile) {
         tiles[row][col] = tile;
     }
 
-    public Tile[][] getTiles() {
-        return tiles;
-    }
+        public Tile[][] getTiles() {
+            return tiles;
+        }
         
-    public int getWidth() {
-        return width;
-    }
+        public int getWidth() {
+            return width;
+        }
 
-    public int getHeight() {
-        return height;
-    }
+        public int getHeight() {
+            return height;
+        }
 
+        public void update()
+        {
+            checkAttackZombie();
+            checkAttackPlant();
+            checkMove();
+        }
+
+        public void checkMove()
+        {
+            for (int row = 0; row < height; row++) {
+                for (int col = 1; col < width-1; col++)
+                {
+                    List<Zombie> movZombies=tiles[row][col].moveZombie();
+                    if(!movZombies.isEmpty())
+                    {
+                        for (Zombie zombie : movZombies)
+                        {
+                            tiles[row][col-1].addZombie(zombie);
+                        }
+                    }
+                }
+            }
+        }
+        
+
+        public void checkAttackZombie()
+        {
+            for (int row = 0; row < height; row++) {
+                for (int col = 1; col < width-1; col++)
+                {
+                    if(tiles[row][col].isOccupiedByPlant() && tiles[row][col].isOccupiedByZombie())
+                    {
+                        tiles[row][col].zombieAttack();
+                    }
+                }
+            }
+        }
+
+        public void checkAttackPlant()
+        {
+            for (int row = 0; row < height; row++) {
+                Tile attackZombieAt=null;
+                int j;
+                for (j=0; j<width; j++)
+                    {
+                        if(tiles[row][j].isOccupiedByZombie()) {attackZombieAt=tiles[row][j]; break;}
+                    }
+                for (int col = 1; col < width-1; col++)
+                {
+                    
+                    if(tiles[row][col].isOccupiedByPlant())
+                    {
+                        Plant plant= tiles[row][col].getPlant();
+                        if(plant.getRange()>=j-col && time.Attack(plant.getSinceLastAttack(), plant.getAttackSpeed()))
+                        {
+                            for (Zombie zombie : attackZombieAt.getListZombie())
+                            {
+                                plant.attack(zombie);
+                            }
+                            attackZombieAt.getListZombie().removeIf(zombie -> zombie.getHealth()<=0);
+                        }
+                    }
+                }
+            }
+        }
+        public void printMap() {
+        for (int row = 0; row < height; row++) {     // row
+            for (int col = 0; col < width; col++) {  // column
+                System.out.print("[ ");
+                if(tiles[row][col].isOccupiedByPlant()) System.out.print("P");
+                if(tiles[row][col].isOccupiedByZombie()) System.out.printf("Z%d",tiles[row][col].getListZombie().size());
+                System.out.print(" ] ");
+                if (col == width-1) {
     public void printMap(GameEntity game) {
         Map map = game.getMap();
         for (int row = 0; row < map.getHeight(); row++) {     // row
@@ -72,28 +147,6 @@ public class Map {
                     System.out.println();
                 }
             }
-        }
-    }
-
-    public void printZombieinTile(GameEntity game, Point tempPoint) {       // this is very inefficient bro 
-        HashMap<Point, List<Zombie>> ZombieList = game.getZombieList();
-        if (ZombieList.get(tempPoint) != null){   
-            for (Zombie zombie : ZombieList.get(tempPoint)) {
-                System.out.print(zombie.getName().charAt(0));   // replace with zombie code
-                System.out.println(" ");
-            }
-        } else {
-            System.out.print("");
-        }
-    }
-
-    public void printPlantinTile(GameEntity game, Point tempPoint) {
-        HashMap<Point, Plant> plant = game.getAlivePlants();
-        if (plant.get(tempPoint) != null){   
-                System.out.print(plant.get(tempPoint).getName().charAt(0));   // replace with plant code
-                System.out.println(" ");
-        } else {
-            System.out.print(" ");
         }
     }
 }

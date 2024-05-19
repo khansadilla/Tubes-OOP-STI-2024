@@ -7,7 +7,11 @@ import com.pvz.plants.*;
 public class Deck {
     private ArrayList<Seed> seeds;
     private PlantFactory plantFactory;
-
+    
+    public Deck()
+    {
+        ArrayList<Seed> seeds=new ArrayList<>();
+    }
     public Plant Plant(String type, Point position)  {
         try {
             for (Seed seed : seeds) {
@@ -27,8 +31,13 @@ public class Deck {
         }
         return null;
     }
-
     public void Dig(Point position) {
-
+        
+    }
+    public ArrayList<Seed> getSeeds() {
+        return seeds;
+    }
+    public void setSeeds(ArrayList<Seed> seeds) {
+        this.seeds = seeds;
     }
 }

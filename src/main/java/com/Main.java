@@ -14,11 +14,7 @@ public class Main {
     public static final String CYAN = "\033[0;36m";    // CYAN
     public static final String WHITE = "\033[0;37m";   // WHITE
     public static int seconds = 0;
-    public static void print() {
-        System.out.println("seconds: "+ seconds);
-        System.out.println("current time main: " + Timer.getInstance().getCurrentTime()/1000);
-        seconds++;
-    }
+
     public static void main(String args[]) {
         System.out.println(" ");
         String gameTitle = 
@@ -47,64 +43,76 @@ public class Main {
         System.out.println(gameTitle);
         
 
-        
-
         GameEntity game = new GameEntity();
         Scanner scanner = new Scanner(System.in);
 
-        Thread thread = new Thread(() -> {
+        // Thread untuk update game
+        Thread gameThread = new Thread(() -> {
             try {
-                while (true && !game.isGameOver()) {
-                    game.update();
-                    game.getMap().printMap(game);
-                    // Main.print();
-                    Thread.sleep(1000);
+                while (!game.isGameOver()) {
+                    game.getMap().printMap();
+                    Thread.sleep(1000); // Perbarui setiap detik
                 }
             } catch (InterruptedException e) {
                 System.out.println("Game loop interrupted");
             }
         });
-        thread.start();
 
+        // Thread untuk aksi Zombie
+        Thread zombieThread = new Thread(() -> {
+            try {
+                while (!game.isGameOver()) {
+                    game.getMap().checkAttackZombie();
+                    game.getMap().checkMove();
+                    Thread.sleep(1000); // Perbarui setiap detik
+                }
+            } catch (InterruptedException e) {
+                System.out.println("Zombie loop interrupted");
+            }
+        });
+        
+
+        // Thread untuk aksi Plant
+        Thread plantThread = new Thread(() -> {
+            try {
+                while (!game.isGameOver()) {
+                    game.getMap().checkAttackPlant();
+                    Thread.sleep(1000); // Perbarui setiap detik
+                }
+            } catch (InterruptedException e) {
+                System.out.println("Plant loop interrupted");
+            }
+        });
+        
+
+        // Thread utama untuk menerima input dari pengguna
         boolean isRunning = true;
-        String userInput;
-
         while (isRunning) {
             System.out.println("Enter your command: ");
-            userInput = scanner.nextLine();
+            String userInput = scanner.nextLine();
             switch (userInput) {
                 case "exit":
                     System.out.println("Game is over.");
                     isRunning = false;
-                    scanner.close();
-                    thread.interrupt();
+                    gameThread.interrupt();
+                    zombieThread.interrupt();
+                    plantThread.interrupt();
                     break;
-                    // game.isGameOver = true;
                 case "start":
                     System.out.println("Game is starting.");
+                    gameThread.start();
+                    zombieThread.start();
+                    plantThread.start();
+                    break;
                 case "sun":
                     System.out.println("Sun: " + game.getSun());
+                    break;
+                case "select seed":
                 default:
                     System.out.println("Invalid command");
             }
         }
+
+        scanner.close();
     }
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
