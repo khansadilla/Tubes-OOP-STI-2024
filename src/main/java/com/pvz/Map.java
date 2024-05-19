@@ -69,6 +69,7 @@ public class Map {
                 }
             }
         }
+        
     }
 
     public void checkAttackZombie() {
@@ -135,29 +136,4 @@ public class Map {
             System.out.printf("Z%d", tiles[row][col].getListZombie().size());
     }
 
-    // public void printMap(GameEntity game) {
-    // Map map = game.getMap();
-    // for (int row = 0; row < map.getHeight(); row++) { // row
-    // for (int col = 0; col < map.getWidth(); col++) { // column
-    // Point tempPoint = new Point(row, col);
-    // Tile tempTile = map.getTile(row, col);
-    // if (tempTile instanceof Dirt) {
-    // System.out.print(GREEN + "[ ");
-    // printPlantinTile(game, tempPoint);
-    // printZombieinTile(game, tempPoint);
-    // System.out.print(" ]"+ RESET);
-    // } else {
-    // System.out.print(BLUE +"[ ");
-    // printPlantinTile(game, tempPoint);
-    // printZombieinTile(game, tempPoint);
-    // System.out.print(" ]" + RESET);
-
-    // }
-
-    // if (col == map.getWidth()-1) {
-    // System.out.println();
-    // }
-    // }
-    // }
-    // }
 }
