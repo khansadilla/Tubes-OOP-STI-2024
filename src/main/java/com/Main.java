@@ -62,6 +62,7 @@ public class Main {
         Thread zombieThread = new Thread(() -> {
             try {
                 while (!game.isGameOver()) {
+                    game.spawnZombieinRow();
                     game.getMap().checkAttackZombie();
                     game.getMap().checkMove();
                     Thread.sleep(1000); // Perbarui setiap detik
@@ -102,7 +103,7 @@ public class Main {
                     break;
                 case "start":
                     // build deck
-                    
+
                     System.out.println("Game is starting.");
                     gameThread.start();
                     zombieThread.start();

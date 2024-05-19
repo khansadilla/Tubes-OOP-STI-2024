@@ -8,17 +8,17 @@ public class Deck {
     private ArrayList<Seed> seeds;
     private PlantFactory plantFactory;
     
-    public Deck()
-    {
+    public Deck(){
         ArrayList<Seed> seeds=new ArrayList<>();
     }
+
     public Plant Plant(String type, Point position)  {
         try {
             for (Seed seed : seeds) {
                 if (seed.getType().getName().equals(type)) {
                     if (!seed.isOnCooldown()) {
-                        Plant plant = plantFactory.create(System.currentTimeMillis(), type, position);
-                        return plant;
+                        Plant plant = plantFactory.create(System.currentTimeMillis(), type);
+                        
                     } else {
                         System.out.println("Plant is on cooldown");
                     }
