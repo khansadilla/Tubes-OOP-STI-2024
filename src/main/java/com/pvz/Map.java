@@ -9,33 +9,35 @@ import com.pvz.plants.Plant;
 import com.pvz.zombies.Zombie;
 
 public class Map {
-        private Tile tiles[][]; 
-        // private List<List<Tile>> tileList;
-        private int width;
-        private int height;
-        Timer time=new Timer();
-        public Map(int height, int width) {     // change to factory?
-            this.tiles=new Tile[height][width];
-            this.width = width;
-            this.height = height;
-            for (int row = 0; row < height; row++) {
-                for (int col = 0; col < width; col++) {
-                    if (row < 2 || row > 3) {   // row 0, 1, 4, 5 = dirt
-                        tiles[row][col]=new Dirt();
-                    } else {
-                        tiles[row][col]=new Pool();
-                    }
+    public static final String BLUE = "\033[0;34m";    // BLUE
+    public static final String GREEN = "\033[0;32m";   // GREEN
+    public static final String RESET = "\033[0m";      // Text Reset
+    private Tile[][] tiles; 
+    private int width;
+    private int height;
+    
+    public Map(int height, int width) {
+        this.width = width;
+        this.height = height;
+        tiles = new Tile[height][width];
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                if (i < 2 || i > 3) {   // row 0, 1, 4, 5 = dirt
+                    setTile(i, j, new Dirt(i, j));
+                } else {
+                    setTile(i, j, new Pool(i, j));
                 }
             }
         }
+    }
     
         public Tile getTile(int x, int y) {
             return tiles[x][y];
         }
     
-        public void setTile(int x, int y, Tile tile) {
-            tiles[x][y] = tile;
-        }
+    public void setTile(int row, int col, Tile tile) {
+        tiles[row][col] = tile;
+    }
 
         public Tile[][] getTiles() {
             return tiles;
@@ -122,6 +124,26 @@ public class Map {
                 if(tiles[row][col].isOccupiedByZombie()) System.out.printf("Z%d",tiles[row][col].getListZombie().size());
                 System.out.print(" ] ");
                 if (col == width-1) {
+    public void printMap(GameEntity game) {
+        Map map = game.getMap();
+        for (int row = 0; row < map.getHeight(); row++) {     // row
+            for (int col = 0; col < map.getWidth(); col++) {  // column
+                Point tempPoint = new Point(row, col);
+                Tile tempTile = map.getTile(row, col);
+                if (tempTile instanceof Dirt) {
+                    System.out.print(GREEN + "[ ");
+                    printPlantinTile(game, tempPoint);
+                    printZombieinTile(game, tempPoint);
+                    System.out.print(" ]"+ RESET);
+                } else {
+                    System.out.print(BLUE +"[ ");
+                    printPlantinTile(game, tempPoint);
+                    printZombieinTile(game, tempPoint);
+                    System.out.print(" ]" + RESET);
+
+                }
+
+                if (col == map.getWidth()-1) {
                     System.out.println();
                 }
             }
