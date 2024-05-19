@@ -85,39 +85,40 @@ public class Main {
             }
         });
         
+        System.out.println("Welcome to Plants vs Zombies!");
+        System.out.println("Here are some commands to get you started");
+        System.out.println("0. exit - Exit the game");
+        System.out.println("1. start - Start the game");
+        System.out.println("2. help - list of commands");
+        System.out.println("3. plants list - Lists of plants you can use");
+        System.out.println("4. zombies list - List of zombies that can spawn");
 
         // Thread utama untuk menerima input dari pengguna
         boolean isRunning = true;
         while (isRunning) {
-            System.out.println("Enter your command: ");
             String userInput = scanner.nextLine();
             switch (userInput) {
-                // case "":
-                //     game.getMap().printMap();
-                case "exit":
+                case "0":
                     System.out.println("Game is over.");
                     isRunning = false;
                     gameThread.interrupt();
                     zombieThread.interrupt();
                     plantThread.interrupt();
                     break;
-                case "start":
-                    // build deck
-
+                case "1":
                     System.out.println("Game is starting.");
                     gameThread.start();
                     zombieThread.start();
                     plantThread.start();
                     break;
-                case "sun":
-                    System.out.println("Sun: " + game.getSun());
-                    break;
-                case "select seed":
+                case "2":
+                    // printHelp();
+                case "3":
+                    // printInventory();
                 default:
                     game.getMap().printMap();
             }
         }
-
         scanner.close();
     }
 }

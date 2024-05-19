@@ -16,7 +16,7 @@ public class GameEntity {
     private Random random;
     private float spawnRoll;
     private String[] poolTypeZombies = {"Ducky Tube Zombie", "Dolphin Rider Zombie"};
-    private String[] dirtTypeZombies = {"Normal Zombie", "Conehead Zombie", "BucketheadZombie",
+    private String[] dirtTypeZombies = {"Normal Zombie", "Conehead Zombie", "Buckethead Zombie",
                                         "Digger Zombie", "Hulk Zombie", "Pole Vaulting Zombie", 
                                         "Trex Zombie", "Wizard Zombie"};
     private ZombieFactory zombieFactory;
@@ -50,16 +50,12 @@ public class GameEntity {
         map.update();
     }
 
-    // public void checkZombie(Zombie zombie) {
-    //     if (zombie.canDoSkill()) {
-    //         // zombie.skill();
-    //     }
-    //     if (zombie.canAttack()) {
-    //         // zombie.attack();
-    //     } else (zombie.canMove()) {
-    //         // zombie.move();
-    //     } 
-    // }
+    public void plant(int row, int col, String type) {
+        Plant plant = deck.Plant(type);
+        if (plant != null) {
+            map.getTile(row, col).addPlant(plant);
+        }
+    }
 
     public void spawnZombieinRow() {
         for (int i = 0; i < map.getHeight(); i++) {
