@@ -7,6 +7,9 @@ import com.pvz.plants.Plant;
 import com.pvz.zombies.Zombie;
 
 public class Map {
+    public static final String BLUE = "\033[0;34m";    // BLUE
+    public static final String GREEN = "\033[0;32m";   // GREEN
+    public static final String RESET = "\033[0m";      // Text Reset
     private Tile[][] tiles; 
     private int width;
     private int height;
@@ -15,12 +18,12 @@ public class Map {
         this.width = width;
         this.height = height;
         tiles = new Tile[height][width];
-        for (int row = 0; row < width-1; row++) {
-            for (int col = 0; col < height-1; col++) {
-                if (row < 2 || row > 3) {   // row 0, 1, 4, 5 = dirt
-                    setTile(col, row, new Dirt(row, col));
+        for (int i = 0; i < height; i++) {
+            for (int j = 0; j < width; j++) {
+                if (i < 2 || i > 3) {   // row 0, 1, 4, 5 = dirt
+                    setTile(i, j, new Dirt(i, j));
                 } else {
-                    setTile(col, row, new Pool(row, col));
+                    setTile(i, j, new Pool(i, j));
                 }
             }
         }
@@ -30,8 +33,8 @@ public class Map {
         return tiles[x][y];
     }
     
-    public void setTile(int x, int y, Tile tile) {
-        tiles[x][y] = tile;
+    public void setTile(int row, int col, Tile tile) {
+        tiles[row][col] = tile;
     }
 
     public Tile[][] getTiles() {
@@ -51,10 +54,20 @@ public class Map {
         for (int row = 0; row < map.getHeight(); row++) {     // row
             for (int col = 0; col < map.getWidth(); col++) {  // column
                 Point tempPoint = new Point(row, col);
-                System.out.print("[ ");
-                printPlantinTile(game, tempPoint);
-                printZombieinTile(game, tempPoint);
-                System.out.print(" ] ");
+                Tile tempTile = map.getTile(row, col);
+                if (tempTile instanceof Dirt) {
+                    System.out.print(GREEN + "[ ");
+                    printPlantinTile(game, tempPoint);
+                    printZombieinTile(game, tempPoint);
+                    System.out.print(" ]"+ RESET);
+                } else {
+                    System.out.print(BLUE +"[ ");
+                    printPlantinTile(game, tempPoint);
+                    printZombieinTile(game, tempPoint);
+                    System.out.print(" ]" + RESET);
+
+                }
+
                 if (col == map.getWidth()-1) {
                     System.out.println();
                 }
