@@ -1,8 +1,8 @@
 package com.pvz.zombies;
 
 public class TrexZombie extends Zombie {
-    public TrexZombie(long timeCreated)
+    public TrexZombie()
     {
-        super("Trex Zombie", 75, 100, 2, false, 5,timeCreated);
+        super("Trex Zombie", 75, 100, 2, false, 5);
     }
 }

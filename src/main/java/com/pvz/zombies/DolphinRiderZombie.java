@@ -2,9 +2,9 @@ package com.pvz.zombies;
 
 public class DolphinRiderZombie extends Zombie {
     private boolean alreadyJumped;
-    public DolphinRiderZombie(long timeCreated)
+    public DolphinRiderZombie()
     {
-        super("Dolphin Rider Zombie",175,100,1,true,5,timeCreated);
+        super("Dolphin Rider Zombie",175,100,1,true,5);
         alreadyJumped=false;
     }
 

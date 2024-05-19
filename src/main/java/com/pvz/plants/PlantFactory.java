@@ -9,7 +9,8 @@ public class PlantFactory implements Factory<Plant> {
     public Plant create(long timeCreated, String type, Point position) throws IllegalTypeException {
         switch (type) {
             case "Peashooter":
-                return new Peashooter(position, timeCreated);            
+                return new Peashooter();
+                   
             // lanjutin 
         
             default:

@@ -1,6 +1,6 @@
 package com.pvz.zombies;
 import com.pvz.plants.*;
-
+import com.pvz.Timer;
 public abstract class Zombie {
     private String name;
     private int health;
@@ -10,8 +10,9 @@ public abstract class Zombie {
     private int movementSpeed;
     private long timeCreated;
     private long sinceLastAttack;
+    Timer time=new Timer();
     
-    public Zombie(String name, int health, int attackDamage, int attackSpeed, boolean isAquatic,  int movementSpeed, long timeCreated)
+    public Zombie(String name, int health, int attackDamage, int attackSpeed, boolean isAquatic,  int movementSpeed)
     {
         this.name=name;
         this.health=health;
@@ -19,8 +20,8 @@ public abstract class Zombie {
         this.attackSpeed=attackSpeed;
         this.isAquatic=isAquatic;
         this.movementSpeed=movementSpeed;
-        this.timeCreated=timeCreated;
         sinceLastAttack=0;
+        timeCreated=time.getCurrentTime();
     }
 
     public void attack(Plant plant)

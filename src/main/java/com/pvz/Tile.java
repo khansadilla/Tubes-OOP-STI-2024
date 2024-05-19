@@ -2,20 +2,16 @@ package com.pvz;
 import java.util.List;
 import com.pvz.plants.Plant;
 import com.pvz.zombies.Zombie;
-import com.pvz.Timer;
 import java.util.ArrayList;
-import java.util.Vector;
 public abstract class Tile {
     private String type;
-    private boolean isOccupiedByPlant;
-    private boolean isOccupiedByZombie;
     private List<Zombie> ZombieList;
     private Plant plant;
     Timer time=new Timer();
 
     public Tile(){
-        List<Zombie> ZombieList=new ArrayList<>();
-        Plant plant=null;
+        this.ZombieList=new ArrayList<>();
+        this.plant=null;
     }
 
     public void setType(String type){
@@ -29,7 +25,7 @@ public abstract class Tile {
     }
     public boolean isOccupiedByZombie()
     {
-        return !ZombieList.isEmpty();
+        return (!ZombieList.isEmpty());
     }
     public abstract boolean isPlantValid(Plant plant);
 
@@ -45,8 +41,7 @@ public abstract class Tile {
 
     public List<Zombie> moveZombie()
     {
-        @SuppressWarnings("rawtypes")
-        List<Zombie> movZombies = new ArrayList();
+        List<Zombie> movZombies = new ArrayList<>();
         for(Zombie zombie : ZombieList)
         {
             if(time.zombieMove(zombie.getTimeCreated()))
