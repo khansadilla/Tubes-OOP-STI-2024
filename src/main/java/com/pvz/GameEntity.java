@@ -1,6 +1,5 @@
 package com.pvz;
 
-import java.util.List;
 import java.util.Random;
 
 import com.pvz.plants.*;
@@ -9,6 +8,7 @@ import com.pvz.ExceptionHandling.*;
 
 public class GameEntity {
     private Deck deck;
+    private Inventory inventory;
     private Map map;
     private Sun sun;
     private Timer timer;
@@ -28,6 +28,9 @@ public class GameEntity {
         this.isGameOver = false;
         this.timer = Timer.getInstance();
         this.zombieFactory = new ZombieFactory();
+        this.deck = new Deck();
+        this.inventory = new Inventory();
+
     }
 
     public int getSun() {
@@ -41,6 +44,14 @@ public class GameEntity {
     public Timer getTimer() {
         return timer;
     }
+
+    public Deck getDeck() {
+        return deck;
+    }
+
+    public Inventory getInventory() {
+        return inventory;
+    }
     
     public boolean isGameOver() {
         return isGameOver;
@@ -48,6 +59,15 @@ public class GameEntity {
 
     public void update() {
         map.update();
+    }
+
+    public void addSeed(String type) {
+        Seed seed = inventory.getSeed(type);
+        deck.addSeed(seed);
+    }
+
+    public void removeSeed(int slot) {
+        deck.removeSeed(slot);
     }
 
     public void plant(int row, int col, String type) {
