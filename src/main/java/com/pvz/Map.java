@@ -1,9 +1,8 @@
 package com.pvz;
 
-import java.util.ArrayList;
-import java.util.HashMap;
+
 import java.util.List;
-import java.util.List.*;
+
 
 import com.pvz.plants.Plant;
 import com.pvz.zombies.Zombie;
@@ -67,7 +66,7 @@ public class Map {
                 }
             }
         }
-        
+
     }
 
     public void checkAttackZombie() {
