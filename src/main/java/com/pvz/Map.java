@@ -15,6 +15,7 @@ public class Map {
     private Tile[][] tiles; 
     private int width;
     private int height;
+    private Timer time = Timer.getInstance();
     
     public Map(int height, int width) {
         this.width = width;
@@ -23,9 +24,9 @@ public class Map {
         for (int i = 0; i < height; i++) {
             for (int j = 0; j < width; j++) {
                 if (i < 2 || i > 3) {   // row 0, 1, 4, 5 = dirt
-                    setTile(i, j, new Dirt(i, j));
+                    setTile(i, j, new Dirt());
                 } else {
-                    setTile(i, j, new Pool(i, j));
+                    setTile(i, j, new Pool());
                 }
             }
         }
@@ -116,37 +117,55 @@ public class Map {
                 }
             }
         }
-        public void printMap() {
+    public void printMap() {
         for (int row = 0; row < height; row++) {     // row
             for (int col = 0; col < width; col++) {  // column
-                System.out.print("[ ");
-                if(tiles[row][col].isOccupiedByPlant()) System.out.print("P");
-                if(tiles[row][col].isOccupiedByZombie()) System.out.printf("Z%d",tiles[row][col].getListZombie().size());
-                System.out.print(" ] ");
-                if (col == width-1) {
-    public void printMap(GameEntity game) {
-        Map map = game.getMap();
-        for (int row = 0; row < map.getHeight(); row++) {     // row
-            for (int col = 0; col < map.getWidth(); col++) {  // column
-                Point tempPoint = new Point(row, col);
-                Tile tempTile = map.getTile(row, col);
-                if (tempTile instanceof Dirt) {
+                if (tiles[row][col] instanceof Dirt) {
                     System.out.print(GREEN + "[ ");
-                    printPlantinTile(game, tempPoint);
-                    printZombieinTile(game, tempPoint);
+                    printZombieandPlant(row, col);
                     System.out.print(" ]"+ RESET);
                 } else {
                     System.out.print(BLUE +"[ ");
-                    printPlantinTile(game, tempPoint);
-                    printZombieinTile(game, tempPoint);
+                    printZombieandPlant(row, col);
                     System.out.print(" ]" + RESET);
 
                 }
-
-                if (col == map.getWidth()-1) {
+                if (col == width-1) {
                     System.out.println();
                 }
             }
         }
+        System.out.println();
     }
+            
+    public void printZombieandPlant(int row, int col) {
+        if(tiles[row][col].isOccupiedByPlant()) System.out.print("P");
+        if(tiles[row][col].isOccupiedByZombie()) System.out.printf("Z%d",tiles[row][col].getListZombie().size());
+    }
+                 
+    // public void printMap(GameEntity game) {
+    //     Map map = game.getMap();
+    //     for (int row = 0; row < map.getHeight(); row++) {     // row
+    //         for (int col = 0; col < map.getWidth(); col++) {  // column
+    //             Point tempPoint = new Point(row, col);
+    //             Tile tempTile = map.getTile(row, col);
+    //             if (tempTile instanceof Dirt) {
+    //                 System.out.print(GREEN + "[ ");
+    //                 printPlantinTile(game, tempPoint);
+    //                 printZombieinTile(game, tempPoint);
+    //                 System.out.print(" ]"+ RESET);
+    //             } else {
+    //                 System.out.print(BLUE +"[ ");
+    //                 printPlantinTile(game, tempPoint);
+    //                 printZombieinTile(game, tempPoint);
+    //                 System.out.print(" ]" + RESET);
+
+    //             }
+
+    //             if (col == map.getWidth()-1) {
+    //                 System.out.println();
+    //             }
+    //         }
+        // }
+    // }
 }

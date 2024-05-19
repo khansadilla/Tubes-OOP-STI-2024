@@ -50,7 +50,7 @@ public class Main {
         Thread gameThread = new Thread(() -> {
             try {
                 while (!game.isGameOver()) {
-                    game.getMap().printMap();
+                    // game.getMap().printMap();
                     Thread.sleep(1000); // Perbarui setiap detik
                 }
             } catch (InterruptedException e) {
@@ -91,6 +91,8 @@ public class Main {
             System.out.println("Enter your command: ");
             String userInput = scanner.nextLine();
             switch (userInput) {
+                // case "":
+                //     game.getMap().printMap();
                 case "exit":
                     System.out.println("Game is over.");
                     isRunning = false;
@@ -99,6 +101,8 @@ public class Main {
                     plantThread.interrupt();
                     break;
                 case "start":
+                    // build deck
+                    
                     System.out.println("Game is starting.");
                     gameThread.start();
                     zombieThread.start();
@@ -109,7 +113,7 @@ public class Main {
                     break;
                 case "select seed":
                 default:
-                    System.out.println("Invalid command");
+                    game.getMap().printMap();
             }
         }
 

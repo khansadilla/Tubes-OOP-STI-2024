@@ -8,6 +8,10 @@ public class Inventory {
 
         
     }
-    public void swapPlant()
-    public void deletePlant()
+    public void swapPlant() {
+
+    }
+    public void deletePlant() {
+        
+    }
 }
