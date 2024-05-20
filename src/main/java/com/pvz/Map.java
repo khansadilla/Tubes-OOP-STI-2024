@@ -1,6 +1,7 @@
 package com.pvz;
 
 
+import java.util.ArrayList;
 import java.util.List;
 
 
@@ -94,12 +95,21 @@ public class Map {
 
                 if (tiles[row][col].isOccupiedByPlant()) {
                     Plant plant = tiles[row][col].getPlant();
+                    List<Zombie> toRemove = new ArrayList<>();
                     if (plant.getRange() >= j - col
                             && time.Attack(plant.getSinceLastAttack(), plant.getAttackSpeed())) {
                         for (Zombie zombie : attackZombieAt.getListZombie()) {
                             plant.attack(zombie);
                         }
-                        attackZombieAt.getListZombie().removeIf(zombie -> zombie.getHealth() <= 0);
+                        for (Zombie zombie : attackZombieAt.getListZombie())
+                        {
+                            if(zombie.getHealth()<=0)
+                            {
+                                toRemove.add(zombie);
+                            }
+                        }
+                        Zombie.setTotalZombie(Zombie.getTotalZombie()-toRemove.size());
+                        attackZombieAt.getListZombie().removeAll(toRemove);
                     }
                 }
             }
