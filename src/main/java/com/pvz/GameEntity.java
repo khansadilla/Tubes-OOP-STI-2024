@@ -15,7 +15,6 @@ public class GameEntity {
     private boolean isGameOver;
     private int totalZombie;
     
-    
     private Random random;
     private float spawnRoll;
     private String[] poolTypeZombies = {"Ducky Tube Zombie", "Dolphin Rider Zombie"};
@@ -23,6 +22,7 @@ public class GameEntity {
     "Digger Zombie", "Hulk Zombie", "Pole Vaulting Zombie", 
     "Trex Zombie", "Wizard Zombie"};
     private ZombieFactory zombieFactory;
+    private PlantFactory plantFactory;
     
     public GameEntity() {
         this.map = new Map(6, 11); 
@@ -33,7 +33,6 @@ public class GameEntity {
         this.zombieFactory = new ZombieFactory();
         this.deck = new Deck();
         this.inventory = new Inventory();
-
         this.totalZombie=0;
     }
     
@@ -75,7 +74,13 @@ public class GameEntity {
     }
     
     public void plant(int row, int col, String type) {
-        Plant plant = deck.Plant(type);
+        Plant plant = null;
+        try {
+            plant = deck.getPlant(type);
+        } catch (CooldownException e) {
+            // System.out.println(e.getMessage());
+            throw new IllegalArgumentException(e.getMessage());
+        }
         if (plant != null) {
             map.getTile(row, col).addPlant(plant);
         }

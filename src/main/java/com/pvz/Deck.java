@@ -2,7 +2,7 @@ package com.pvz;
 
 import java.util.ArrayList;
 
-import com.pvz.ExceptionHandling.IllegalTypeException;
+import com.pvz.ExceptionHandling.*;
 import com.pvz.plants.*;
 
 public class Deck {
@@ -12,23 +12,28 @@ public class Deck {
     
     public Deck(){
         seeds = new ArrayList<>();
+        plantFactory = new PlantFactory();
     }
 
-    public Plant Plant(String type)  {
+    public Plant getPlant(String type) throws CooldownException{
         try {
+            boolean found = false;
             for (Seed seed : seeds) {
                 if (seed.getType().getName().equals(type)) {
-                    if (!seed.isOnCooldown()) {
+                    found = true;
+                    if (seed.isOnCooldown()) {
+                        throw new CooldownException("Plant is on cooldown");
+                        // System.out.println("Plant is on cooldown");
+                    } else {
                         Plant plant = plantFactory.create(System.currentTimeMillis(), type);
                         seed.setOnCooldown(true);
                         seed.setLastUsed(timer.getCurrentTime());
                         return plant;
-                    } else {
-                        System.out.println("Plant is on cooldown");
                     }
-                } else {
-                    System.out.println("Plant not found");
                 }
+            }
+            if (!found) {
+                System.out.println("Plant not found");
             }
         } catch (IllegalTypeException e) {
             System.out.println(e.getMessage());
