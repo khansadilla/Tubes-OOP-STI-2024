@@ -99,4 +99,12 @@ public class Deck {
             System.out.println(seed.getType().getName());
         }
     }
+
+    public void printDeckVertical() {
+        System.out.print("Deck: ");
+        for (Seed seed : seeds) {
+            System.out.print(seed.getType().getName()+" | ");
+        }
+        System.out.println();
+    }
 }

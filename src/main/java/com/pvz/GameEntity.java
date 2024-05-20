@@ -22,7 +22,6 @@ public class GameEntity {
     "Digger Zombie", "Hulk Zombie", "Pole Vaulting Zombie", 
     "Trex Zombie", "Wizard Zombie"};
     private ZombieFactory zombieFactory;
-    private PlantFactory plantFactory;
     
     public GameEntity() {
         this.map = new Map(6, 11); 
@@ -77,12 +76,19 @@ public class GameEntity {
         Plant plant = null;
         try {
             plant = deck.getPlant(type);
+
         } catch (CooldownException e) {
             // System.out.println(e.getMessage());
             throw new IllegalArgumentException(e.getMessage());
         }
         if (plant != null) {
             map.getTile(row, col).addPlant(plant);
+            int cost = plant.getCost();
+            if (sun.getValue() < cost) {
+                throw new IllegalArgumentException("Not enough sun");
+            } else {
+                sun.decreaseSun(cost);;
+            }
         }
     }
     
@@ -128,5 +134,11 @@ public class GameEntity {
     
     public void setTotalZombie(int totalZombie) {
         this.totalZombie = totalZombie;
+    }
+
+    public void printGame() {
+        deck.printDeckVertical();
+        map.printMap();
+        System.out.println("Sun: " + sun.getValue());
     }
 }

@@ -51,7 +51,8 @@ public class Main {
         Thread gameThread = new Thread(() -> {
             try {
                 while (!game.isGameOver()) {
-                    game.getMap().printMap();
+                    // game.getMap().printMap();
+                    game.printGame();
                     Thread.sleep(2000); // Perbarui setiap detik
                 }
             } catch (InterruptedException e) {
@@ -119,7 +120,7 @@ public class Main {
                     game.getInventory().printInventory();
                 default:
                     handleInput(game);
-                    game.getMap().printMap();
+                    game.printGame();
             }
         }
         if (game.isGameOver() || !isRunning) {
@@ -219,6 +220,30 @@ public class Main {
             System.out.println("List of commands:");
             System.out.println("plant [row] [col] [type] - Plant a seed");
             System.out.println("help - List of commands");
+        } else if (input.equals("List plants")) {
+            System.out.println("List of plants:");
+            System.out.println("Peashooter");
+            System.out.println("Sunflower");
+            System.out.println("Wallnut");
+            System.out.println("Tallnut");
+            System.out.println("Squash");
+            System.out.println("Lilypad");
+            System.out.println("Kelp");
+            System.out.println("Snowpea");
+            System.out.println("Sunbean");
+            System.out.println("Jalapeno");
+        } else if (input.equals("List zombies")) {
+            System.out.println("List of zombies:");
+            System.out.println("Normal Zombie");
+            System.out.println("Conehead Zombie");
+            System.out.println("Buckethead Zombie");
+            System.out.println("Digger Zombie");
+            System.out.println("Hulk Zombie");
+            System.out.println("Dolphin Rider Zombie");
+            System.out.println("Ducky Tube Zombie");
+            System.out.println("Trex Zombie");
+            System.out.println("Wizard Zombie");
+            System.out.println("Pole Vaulting Zombie");
         } else if (input.equals("exit")) {
             game.setGameOver(true);
         } else {
