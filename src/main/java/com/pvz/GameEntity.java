@@ -70,11 +70,33 @@ public class GameEntity {
         deck.removeSeed(slot);
     }
     
-    public void plant(int row, int col, String type) {
-        Plant plant = deck.Plant(type);
-        if (plant != null) {
-            map.getTile(row, col).addPlant(plant);
+    public void plant(int row, int col, String type) throws IllegalArgumentException, IllegalPlantingException{
+        Plant plant = null;
+        try {
+            plant = deck.getPlant(type);
+
+        } catch (CooldownException e) {
+            // System.out.println(e.getMessage());
+            throw new IllegalArgumentException(e.getMessage());
         }
+        if (plant != null) {
+            try {
+                map.getTile(row, col).addPlant(plant);
+            } catch (Exception e) {
+                // System.out.println(e.getMessage());
+                throw new IllegalPlantingException(e.getMessage()+": Game Entity");
+            }
+            int cost = plant.getCost();
+            if (sun.getValue() < cost) {
+                throw new IllegalArgumentException("Not enough sun");
+            } else {
+                sun.decreaseSun(cost);;
+            }
+        }
+    }
+
+    public void Dig(int row, int col) {
+        map.getTile(row, col).removePlant();
     }
     
     public void spawnZombieinRow() {
@@ -112,5 +134,11 @@ public class GameEntity {
             System.out.println(e.getMessage());
             return null;
         }
+    }
+
+    public void printGame() {
+        deck.printDeckVertical();
+        map.printMap();
+        System.out.println("Sun: " + sun.getValue());
     }
 }
