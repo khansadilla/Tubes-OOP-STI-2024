@@ -10,6 +10,10 @@ public abstract class Zombie {
     private int movementSpeed;
     private long timeCreated;
     private long sinceLastAttack;
+    private long sinceLastMove;
+    private static int totalZombie=0;
+    
+    
     Timer time=new Timer();
     
     public Zombie(String name, int health, int attackDamage, int attackSpeed, boolean isAquatic,  int movementSpeed)
@@ -22,8 +26,9 @@ public abstract class Zombie {
         this.movementSpeed=movementSpeed;
         sinceLastAttack=0;
         timeCreated=time.getCurrentTime();
+        sinceLastMove=timeCreated;
     }
-
+    
     public void attack(Plant plant)
     {
         plant.setHealth(plant.getHealth()-attackDamage);
@@ -72,15 +77,29 @@ public abstract class Zombie {
     {
         this.timeCreated=timeCreated;
     }
-
+    
     public long getSinceLastAttack()
     {
         return sinceLastAttack;
     }
-
+    
     public void setSinceLastAttack(Long sinceLastAttack)
     {
         this.sinceLastAttack=sinceLastAttack;
     }
     
+    public long getSinceLastMove() {
+        return sinceLastMove;
+    }
+    
+    public void setSinceLastMove(long sinceLastMove) {
+        this.sinceLastMove = sinceLastMove;
+    }
+    public static int getTotalZombie() {
+        return totalZombie;
+    }
+    
+    public static void setTotalZombie(int totalZombie) {
+        Zombie.totalZombie = totalZombie;
+    }
 }

@@ -42,14 +42,17 @@ public abstract class Tile {
     public List<Zombie> moveZombie()
     {
         List<Zombie> movZombies = new ArrayList<>();
+        List<Zombie> toRemove = new ArrayList<>();
         for(Zombie zombie : ZombieList)
         {
-            if(time.zombieMove(zombie.getTimeCreated()))
+            if(time.zombieMove(zombie.getSinceLastMove()))
             {
                 movZombies.add(zombie);
+                zombie.setSinceLastMove(time.getCurrentTime());
+                toRemove.add(zombie);
             }
         }
-        ZombieList.removeIf(zombie->time.zombieMove(zombie.getTimeCreated()));
+        ZombieList.removeAll(toRemove);
         return movZombies;
     }
 
