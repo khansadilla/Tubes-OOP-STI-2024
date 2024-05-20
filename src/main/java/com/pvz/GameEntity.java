@@ -13,8 +13,6 @@ public class GameEntity {
     private Sun sun;
     private Timer timer;
     private boolean isGameOver;
-    private int totalZombie;
-    
     
     private Random random;
     private float spawnRoll;
@@ -33,8 +31,6 @@ public class GameEntity {
         this.zombieFactory = new ZombieFactory();
         this.deck = new Deck();
         this.inventory = new Inventory();
-
-        this.totalZombie=0;
     }
     
     public int getSun() {
@@ -86,13 +82,13 @@ public class GameEntity {
             Tile tile = map.getTile(i , 10);
             spawnRoll = random.nextFloat(); // 0.0 < spawnRoll < 1.0
             
-            if (spawnRoll < 0.3 && totalZombie<10) {  // 30% chance
+            if (spawnRoll < 0.3 && Zombie.getTotalZombie()<10) {  // 30% chance
                 if (tile instanceof Pool) {
                     tile.addZombie(spawnZombiePool());
-                    totalZombie++;
+                    Zombie.setTotalZombie(Zombie.getTotalZombie()+1);
                 } else {
                     tile.addZombie(spawnZombieDirt());
-                    totalZombie++;
+                    Zombie.setTotalZombie(Zombie.getTotalZombie()+1);
                 }
             }
         }
@@ -116,12 +112,5 @@ public class GameEntity {
             System.out.println(e.getMessage());
             return null;
         }
-    }
-    public int getTotalZombie() {
-        return totalZombie;
-    }
-    
-    public void setTotalZombie(int totalZombie) {
-        this.totalZombie = totalZombie;
     }
 }

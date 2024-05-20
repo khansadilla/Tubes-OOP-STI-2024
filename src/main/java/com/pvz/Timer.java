@@ -30,9 +30,9 @@ public class Timer {
         elapsedTime = (currentTime - startTime);
         return elapsedTime;
     }    
-    public boolean zombieMove(long timeCreated)
+    public boolean zombieMove(long sinceLastMove)
     {
-        if(elapsedTime%5000==0) return true;
+        if(getCurrentTime()-sinceLastMove>=10000) return true;
         return false;
     }
     public boolean Attack(long sinceLastAttack, int attackSpeed)
