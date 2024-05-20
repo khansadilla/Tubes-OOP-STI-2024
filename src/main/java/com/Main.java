@@ -162,21 +162,28 @@ public class Main {
                 case "2":
                     System.out.println("Remove a seed");
                     System.out.println("Select a slot to remove:");
+                    deck.printDeck();
+                    int slot = scanner.nextInt();
                     try {
-                        deck.printDeck();
-                        int slot = scanner.nextInt();
                         deck.removeSeed(slot);
                     } catch (Exception e) {
                         System.out.println(e.getMessage());
                     }
                     break;
-                case "3":
+                    case "3":
                     System.out.println("Swap two seeds");
+                    deck.printDeck();
                     System.out.println("Seed 1:");
                     int x = scanner.nextInt();
                     System.out.println("Seed 2:");
                     int y = scanner.nextInt();
-                    deck.swapSeeds(x, y);
+                    try {
+                        deck.swapSeeds(x-1, y-1);
+                        System.out.println("Swap successful!");
+                    } catch (Exception e) {
+                        System.out.println(e.getMessage());
+                    }
+                    deck.printDeck();
                     break;
                 case "4":
                     isBuilding = false;
@@ -185,7 +192,5 @@ public class Main {
                     System.out.println("Invalid input");
             }
         }
-
     }
-
 }

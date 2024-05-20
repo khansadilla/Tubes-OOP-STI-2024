@@ -45,9 +45,14 @@ public class Deck {
     }
 
     public void swapSeeds(int x, int y) {
-        Seed temp = seeds.get(x);
-        seeds.set(x, seeds.get(y));
-        seeds.set(y, temp);
+        if (x < 0 || x >= seeds.size() || y < 0 || y >= seeds.size()) {
+            throw new IndexOutOfBoundsException("Index out of bounds");
+            // System.out.println("Index out of bounds");
+        } else {
+            Seed temp = seeds.get(x);
+            seeds.set(x, seeds.get(y));
+            seeds.set(y, temp);
+        }
     }
 
     public void addSeed(Seed seed) {
@@ -65,20 +70,20 @@ public class Deck {
     }
 
     public void removeSeed(int slot) {
-        if (seeds.size() < slot) {
+        if (slot > seeds.size() ) {
+            throw new IndexOutOfBoundsException("Slot not found");
+            // System.out.println("Slot not found");
+        } else {
             if (seeds.isEmpty()) {
                 throw new IndexOutOfBoundsException("Deck is empty");
             } else {
-                if (seeds.get(slot) != null) {
-                    seeds.remove(slot);
+                if (seeds.get(slot) == null) {
+                    // System.out.println("Slot is empty");
+                    throw new IndexOutOfBoundsException("Slot is empty");
                 } else {
-                    // throw new IndexOutOfBoundsException("Slot is empty");
-                    System.out.println("Slot is empty");
+                    seeds.remove(slot);
                 }
             }
-        } else {
-            throw new IndexOutOfBoundsException("Slot not found");
-            // System.out.println("Slot not found");
         }
     }
 
