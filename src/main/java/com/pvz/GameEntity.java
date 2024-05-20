@@ -72,7 +72,7 @@ public class GameEntity {
         deck.removeSeed(slot);
     }
     
-    public void plant(int row, int col, String type) {
+    public void plant(int row, int col, String type) throws IllegalArgumentException, IllegalPlantingException{
         Plant plant = null;
         try {
             plant = deck.getPlant(type);
@@ -82,7 +82,12 @@ public class GameEntity {
             throw new IllegalArgumentException(e.getMessage());
         }
         if (plant != null) {
-            map.getTile(row, col).addPlant(plant);
+            try {
+                map.getTile(row, col).addPlant(plant);
+            } catch (Exception e) {
+                // System.out.println(e.getMessage());
+                throw new IllegalPlantingException(e.getMessage()+": Game Entity");
+            }
             int cost = plant.getCost();
             if (sun.getValue() < cost) {
                 throw new IllegalArgumentException("Not enough sun");
@@ -90,6 +95,10 @@ public class GameEntity {
                 sun.decreaseSun(cost);;
             }
         }
+    }
+
+    public void Dig(int row, int col) {
+        map.getTile(row, col).removePlant();
     }
     
     public void spawnZombieinRow() {

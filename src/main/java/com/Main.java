@@ -53,7 +53,7 @@ public class Main {
                 while (!game.isGameOver()) {
                     // game.getMap().printMap();
                     game.printGame();
-                    Thread.sleep(2000); // Perbarui setiap detik
+                    Thread.sleep(1000); // Perbarui setiap detik
                 }
             } catch (InterruptedException e) {
                 System.out.println("Game loop interrupted");
@@ -67,7 +67,7 @@ public class Main {
                     game.spawnZombieinRow();
                     game.getMap().checkAttackZombie();
                     game.getMap().checkMove(game);
-                    Thread.sleep(1000); // Perbarui setiap detik
+                    Thread.sleep(5000); // Perbarui setiap detik
                 }
             } catch (InterruptedException e) {
                 System.out.println("Zombie loop interrupted");
@@ -108,12 +108,16 @@ public class Main {
                     buildDeck(game);
                     break;
                 case "2":
-                    System.out.println("Game is starting.");
-                    gameThread.start();
-                    // zombieThread.start();
-                    plantThread.start();
-                    while (!game.isGameOver() && isRunning) {
-                        handleInput(game);
+                    if (!game.getDeck().isEmpty()) {
+                        System.out.println("Game is starting.");
+                        gameThread.start();
+                        zombieThread.start();
+                        plantThread.start();
+                        while (!game.isGameOver() && isRunning) {
+                            handleInput(game);
+                        }
+                    } else {
+                        System.out.println("Deck is empty. Please build your deck first");
                     }
                     break;
                 case "3":
@@ -166,6 +170,10 @@ public class Main {
                     }
                     break;
                 case "2":
+                    if (deck.isEmpty()) {
+                        System.out.println("Deck is empty");
+                        break;
+                    }
                     System.out.println("Remove a seed");
                     System.out.println("Select a slot to remove:");
                     deck.printDeck();
@@ -205,11 +213,24 @@ public class Main {
         if (input.startsWith("plant ")) {
             String[] inputs = input.split(" ");
             if (inputs.length == 4) {
-                int row = Integer.parseInt(inputs[1]);
-                int col = Integer.parseInt(inputs[2]);
+                int row = Integer.parseInt(inputs[1]) - 1;
+                int col = Integer.parseInt(inputs[2]) - 1;
                 String type = inputs[3];
                 try {
                     game.plant(row, col, type);
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+            } else {
+                System.out.println("Invalid input");
+            }
+        } else if (input.startsWith("dig ")) {
+            String[] inputs = input.split(" ");
+            if (inputs.length == 3) {
+                int row = Integer.parseInt(inputs[1]) - 1;
+                int col = Integer.parseInt(inputs[2]) - 1;
+                try {
+                    game.getMap().getTile(row, col).removePlant();
                 } catch (Exception e) {
                     System.out.println(e.getMessage());
                 }

@@ -11,6 +11,7 @@ public class Map {
     public static final String BLUE = "\033[0;34m"; // BLUE
     public static final String GREEN = "\033[0;32m"; // GREEN
     public static final String RESET = "\033[0m"; // Text Reset
+    public static final String RED = "\033[0;31m"; // RED
     private Tile[][] tiles;
     private int width;
     private int height;
@@ -109,14 +110,25 @@ public class Map {
         for (int row = 0; row < height; row++) { // row
             for (int col = 0; col < width; col++) { // column
                 if (tiles[row][col] instanceof Dirt) {
-                    System.out.print(GREEN + "[ ");
-                    printZombieandPlant(row, col);
-                    System.out.print(" ]" + RESET);
+                    if (col == 0 || col == width - 1) {
+                        System.out.print(RED + "[ ");
+                        printZombieandPlant(row, col);
+                        System.out.print(" ]" + RESET);
+                    } else {
+                        System.out.print(GREEN + "[ ");
+                        printZombieandPlant(row, col);
+                        System.out.print(" ]" + RESET);
+                    }
                 } else {
-                    System.out.print(BLUE + "[ ");
-                    printZombieandPlant(row, col);
-                    System.out.print(" ]" + RESET);
-
+                    if (col == 0 || col == width - 1) {
+                        System.out.print(RED + "[ ");
+                        printZombieandPlant(row, col);
+                        System.out.print(" ]" + RESET);
+                    } else {
+                        System.out.print(BLUE + "[ ");
+                        printZombieandPlant(row, col);
+                        System.out.print(" ]" + RESET);
+                    }
                 }
                 if (col == width - 1) {
                     System.out.println();

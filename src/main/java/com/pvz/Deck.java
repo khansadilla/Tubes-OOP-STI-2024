@@ -15,6 +15,10 @@ public class Deck {
         plantFactory = new PlantFactory();
     }
 
+    public boolean isEmpty() {
+        return seeds.isEmpty();
+    }
+
     public Plant getPlant(String type) throws CooldownException{
         try {
             boolean found = false;
@@ -39,10 +43,6 @@ public class Deck {
             System.out.println(e.getMessage());
         }
         return null;
-    }
-
-    public void Dig(int row, int col) {
-        
     }
 
     public ArrayList<Seed> getSeeds() {
