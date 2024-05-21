@@ -4,6 +4,7 @@ import com.pvz.*;
 import com.pvz.plants.Seed;
 
 import java.util.Scanner;
+import java.util.concurrent.atomic.AtomicLong;
 
 public class Main {
     public static final String RESET = "\033[0m"; // Text Reset
@@ -52,7 +53,6 @@ public class Main {
             try {
                 while (!game.isGameOver()) {
                     // game.getMap().printMap();
-                    game.printGame();
                     Thread.sleep(1000); // Perbarui setiap detik
                 }
             } catch (InterruptedException e) {
@@ -60,14 +60,22 @@ public class Main {
             }
         });
 
+        AtomicLong sinceLastSpawn = new AtomicLong(0);
+        Timer time = Timer.getInstance();
         // Thread untuk aksi Zombie
         Thread zombieThread = new Thread(() -> {
             try {
                 while (!game.isGameOver()) {
-                    game.spawnZombieinRow();
-                    game.getMap().checkAttackZombie();
-                    game.getMap().checkMove(game);
-                    Thread.sleep(5000); // Perbarui setiap detik
+                    synchronized (game)
+                    {
+                        if (time.spawn(sinceLastSpawn.get())) {
+                            game.spawnZombieinRow();
+                            sinceLastSpawn.set(time.getCurrentTime());
+                        }
+                        game.getMap().checkAttackZombie();
+                        game.getMap().checkMove(game);
+                    }
+                    Thread.sleep(1000); // Perbarui setiap detik
                 }
             } catch (InterruptedException e) {
                 System.out.println("Zombie loop interrupted");
@@ -78,7 +86,10 @@ public class Main {
         Thread plantThread = new Thread(() -> {
             try {
                 while (!game.isGameOver()) {
-                    game.getMap().checkAttackPlant();
+                    synchronized(game)
+                    {
+                        game.getMap().checkAttackPlant2();
+                    }
                     Thread.sleep(1000); // Perbarui setiap detik
                 }
             } catch (InterruptedException e) {
@@ -265,9 +276,12 @@ public class Main {
             System.out.println("Trex Zombie");
             System.out.println("Wizard Zombie");
             System.out.println("Pole Vaulting Zombie");
-        } else if (input.equals("exit")) {
+        } 
+        else if (input.equals("exit")) {
             game.setGameOver(true);
-        } else {
+        } 
+        else if (input.equals("")) game.printGame();
+        else {
             System.out.println("Invalid input");
         }
     }

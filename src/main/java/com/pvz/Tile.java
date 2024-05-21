@@ -26,7 +26,7 @@ public abstract class Tile {
     }
 
     public boolean isOccupiedByPlant() {
-        return !(plant == null  || !plant.getName().equals("Lilypad"));
+        return !(plant == null);
     }
 
     public boolean isOccupiedByZombie() {
