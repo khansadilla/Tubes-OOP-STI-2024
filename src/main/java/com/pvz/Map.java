@@ -57,7 +57,7 @@ public class Map {
         for (int row = 0; row < height; row++) {
             for (int col = 0; col < width; col++) {
                 List<Zombie> movZombies = tiles[row][col].moveZombie();
-                if (!movZombies.isEmpty()) {
+                if (!movZombies.isEmpty() && !tiles[row][col].isOccupiedByPlant()) {
                     if (col==0) {game.setGameOver(true); return;} 
                     else
                     {
@@ -80,8 +80,44 @@ public class Map {
             }
         }
     }
-
-    public void checkAttackPlant() {
+    public void checkAttackPlant2()
+    {
+        for (int row=0; row<height; row++)
+        {
+            for (int col=1; col<width-1; col++)
+            {
+                if(tiles[row][col].isOccupiedByPlant())
+                {
+                    int i;
+                    for (i=col; i<width-1; i++)
+                    {
+                        if(tiles[row][i].isOccupiedByZombie()) break;
+                    }
+                    Plant plant = tiles[row][col].getPlant();
+                    Tile attackZombieAt=tiles[row][i];
+                    List<Zombie> toRemove = new ArrayList<>();
+                    if((plant.getRange()==-1 || (plant.getRange()==1 && i-col==1)) &&
+                    time.Attack(plant.getSinceLastAttack(), plant.getAttackSpeed()))
+                    {
+                        for (Zombie zombie : attackZombieAt.getListZombie()) {
+                            plant.attack(zombie);
+                            System.out.println("Berkurang kok : "+zombie.getHealth());
+                        }
+                        for (Zombie zombie : attackZombieAt.getListZombie())
+                        {
+                            if(zombie.getHealth()<=0)
+                            {
+                                toRemove.add(zombie);
+                            }
+                        }
+                        Zombie.setTotalZombie(Zombie.getTotalZombie()-toRemove.size());
+                        attackZombieAt.getListZombie().removeAll(toRemove);
+                    }
+                }
+            }
+        }
+    }
+    public void checkAttackPlant1() {
         for (int row = 0; row < height; row++) {
             Tile attackZombieAt = null;
             int j;
@@ -91,15 +127,18 @@ public class Map {
                     break;
                 }
             }
+            if(attackZombieAt==null) continue;
+        
             for (int col = 1; col < width - 1; col++) {
 
                 if (tiles[row][col].isOccupiedByPlant()) {
                     Plant plant = tiles[row][col].getPlant();
                     List<Zombie> toRemove = new ArrayList<>();
-                    if (plant.getRange() >= j - col
+                    if (plant.getRange() ==-1
                             && time.Attack(plant.getSinceLastAttack(), plant.getAttackSpeed())) {
                         for (Zombie zombie : attackZombieAt.getListZombie()) {
                             plant.attack(zombie);
+                            System.out.println("Berkurang kok : "+zombie.getHealth());
                         }
                         for (Zombie zombie : attackZombieAt.getListZombie())
                         {
