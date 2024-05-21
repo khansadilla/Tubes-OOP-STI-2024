@@ -80,7 +80,7 @@ public class Map {
             }
         }
     }
-    public void checkAttackPlant2()
+    public void checkAttackPlant()
     {
         for (int row=0; row<height; row++)
         {
@@ -99,43 +99,6 @@ public class Map {
                     if((plant.getRange()==-1 || (plant.getRange()==1 && i-col==1)) &&
                     time.Attack(plant.getSinceLastAttack(), plant.getAttackSpeed()))
                     {
-                        for (Zombie zombie : attackZombieAt.getListZombie()) {
-                            plant.attack(zombie);
-                            System.out.println("Berkurang kok : "+zombie.getHealth());
-                        }
-                        for (Zombie zombie : attackZombieAt.getListZombie())
-                        {
-                            if(zombie.getHealth()<=0)
-                            {
-                                toRemove.add(zombie);
-                            }
-                        }
-                        Zombie.setTotalZombie(Zombie.getTotalZombie()-toRemove.size());
-                        attackZombieAt.getListZombie().removeAll(toRemove);
-                    }
-                }
-            }
-        }
-    }
-    public void checkAttackPlant1() {
-        for (int row = 0; row < height; row++) {
-            Tile attackZombieAt = null;
-            int j;
-            for (j = 0; j < width; j++) {
-                if (tiles[row][j].isOccupiedByZombie()) {
-                    attackZombieAt = tiles[row][j];
-                    break;
-                }
-            }
-            if(attackZombieAt==null) continue;
-        
-            for (int col = 1; col < width - 1; col++) {
-
-                if (tiles[row][col].isOccupiedByPlant()) {
-                    Plant plant = tiles[row][col].getPlant();
-                    List<Zombie> toRemove = new ArrayList<>();
-                    if (plant.getRange() ==-1
-                            && time.Attack(plant.getSinceLastAttack(), plant.getAttackSpeed())) {
                         for (Zombie zombie : attackZombieAt.getListZombie()) {
                             plant.attack(zombie);
                             System.out.println("Berkurang kok : "+zombie.getHealth());

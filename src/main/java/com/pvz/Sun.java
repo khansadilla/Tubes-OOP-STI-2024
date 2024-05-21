@@ -12,7 +12,7 @@ public class Sun {
     private Timer timer = Timer.getInstance();
 
     private Sun(){
-        setValue(10000);
+        setValue(50);
         random = new Random();
         lastSunTime = timer.getCurrentTime();
         currentTime = timer.getCurrentTime();
@@ -41,7 +41,7 @@ public class Sun {
 
     public void generateSun(){
         currentTime = timer.getCurrentTime();
-        if (currentTime - lastSunTime > getCooldown() * 1000) {
+        if (currentTime - lastSunTime > getCooldown() * 1000 && timer.isDay()) {
             lastSunTime = currentTime;
             addSun(25);
             setRandomCooldown();
@@ -54,6 +54,5 @@ public class Sun {
 
     public void setRandomCooldown() {
         cooldown = random.nextInt(6) + 5;
-        System.out.println("Sun cooldown: " + cooldown);
     }
 }

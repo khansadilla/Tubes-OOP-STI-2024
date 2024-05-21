@@ -47,11 +47,13 @@ public class Main {
 
         GameEntity game = new GameEntity();
         // Scanner scanner = new Scanner(System.in);
-
+        Sun sun = Sun.getInstance();
+        
         // Thread untuk update game
         Thread gameThread = new Thread(() -> {
             try {
                 while (!game.isGameOver()) {
+                    sun.generateSun();
                     // game.getMap().printMap();
                     Thread.sleep(1000); // Perbarui setiap detik
                 }
@@ -88,7 +90,7 @@ public class Main {
                 while (!game.isGameOver()) {
                     synchronized(game)
                     {
-                        game.getMap().checkAttackPlant2();
+                        game.getMap().checkAttackPlant();
                     }
                     Thread.sleep(1000); // Perbarui setiap detik
                 }
