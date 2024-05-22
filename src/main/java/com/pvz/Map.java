@@ -101,7 +101,6 @@ public class Map {
                     {
                         for (Zombie zombie : attackZombieAt.getListZombie()) {
                             plant.attack(zombie);
-                            System.out.println("Berkurang kok : "+zombie.getHealth());
                         }
                         for (Zombie zombie : attackZombieAt.getListZombie())
                         {
