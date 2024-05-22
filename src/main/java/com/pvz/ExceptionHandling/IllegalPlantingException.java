@@ -8,6 +8,6 @@ public class IllegalPlantingException extends Exception {
     }
 
     public String getMessage() {
-        return String.format("Plant cannot be planted here", message);
+        return String.format("Plant cannot be planted here: "+ message);
     }
 }

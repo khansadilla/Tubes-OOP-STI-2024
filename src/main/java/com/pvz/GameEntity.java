@@ -81,7 +81,8 @@ public class GameEntity {
         }
         if (plant != null) {
             try {
-                map.getTile(row, col).addPlant(plant);
+                // map.getTile(row, col+1).addPlant(plant);
+                map.plant(row, col, plant);
             } catch (Exception e) {
                 // System.out.println(e.getMessage());
                 throw new IllegalPlantingException(e.getMessage()+": Game Entity");

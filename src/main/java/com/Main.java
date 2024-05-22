@@ -225,7 +225,7 @@ public class Main {
             String[] inputs = input.split(" ");
             if (inputs.length == 4) {
                 int row = Integer.parseInt(inputs[1]) - 1;
-                int col = Integer.parseInt(inputs[2]) - 1;
+                int col = Integer.parseInt(inputs[2]);
                 String type = inputs[3];
                 try {
                     game.plant(row, col, type);
