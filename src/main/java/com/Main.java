@@ -53,31 +53,15 @@ public class Main {
         AtomicLong sinceLastSpawn = new AtomicLong(0);
         Timer time = Timer.getInstance();
         
-        // Thread untuk update game
-        Thread gameThread = new Thread(() -> {
-            try {
-                while (!game.isGameOver()) {
-
-                    sun.generateSun();
-                    if((time.getElapsedTime()%200000>160000 || time.getElapsedTime()%200000<20000) && time.getElapsedTime()>160000)
-                    {
-                        if(Zombie.getTotalZombie()==0) game.setGameOver(true);
-                    }
-                    System.out.println("ini detik ke-"+time.getElapsedTime()/1000);
-                    // game.getMap().printMap();
-                    Thread.sleep(1000); // Perbarui setiap detik
-                }
-            } catch (InterruptedException e) {
-                System.out.println("Game loop interrupted");
-            }
-        });
         // Thread untuk aksi Zombie
+        // Thread untuk update game
         Thread zombieThread = new Thread(() -> {
             try {
                 while (!game.isGameOver()) {
                     synchronized (game)
                     {
                         if (time.spawn(sinceLastSpawn.get())) {
+                            game.getMap().checkAttackZombie();
                             game.spawnZombieinRow();
                             sinceLastSpawn.set(time.getCurrentTime());
                         }
@@ -90,7 +74,7 @@ public class Main {
                 System.out.println("Zombie loop interrupted");
             }
         });
-
+        
         // Thread untuk aksi Plant
         Thread plantThread = new Thread(() -> {
             try {
@@ -105,7 +89,26 @@ public class Main {
                 System.out.println("Plant loop interrupted");
             }
         });
+        
+        Thread gameThread = new Thread(() -> {
+            try {
+                while (!game.isGameOver()) {
+                    System.out.println("detik ke"+time.getElapsedTime()/1000);
 
+                    sun.generateSun();
+                    if(game.isGameOver())
+                    {
+                        zombieThread.interrupt();
+                        plantThread.interrupt();
+                    }
+
+                    // game.getMap().printMap();
+                    Thread.sleep(1000); // Perbarui setiap detik
+                }
+            } catch (InterruptedException e) {
+                System.out.println("Game loop interrupted");
+            }
+        });
         System.out.println("Welcome to Plants vs Zombies!");
         System.out.println("Here are some commands to get you started");
         

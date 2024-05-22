@@ -54,7 +54,15 @@ public class GameEntity {
     }
     
     public boolean isGameOver() {
-        return isGameOver;
+        if ((timer.getElapsedTime()%200000>160000 || timer.getElapsedTime()%200000<20000) && timer.getElapsedTime()>160000)
+        {
+            if(Zombie.getTotalZombie()==0) return true;
+        }
+        for (int i=0; i<map.getHeight(); i++)
+        {
+            if(map.getTile(i, 0).isOccupiedByZombie()) return true;
+        }
+        return false;
     }
     
     public void setGameOver(boolean isGameOver) {
@@ -115,6 +123,7 @@ public class GameEntity {
             }
         }
     }
+
     
     public Zombie spawnZombiePool() {
         try {
