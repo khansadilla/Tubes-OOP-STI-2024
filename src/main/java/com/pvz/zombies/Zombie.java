@@ -12,6 +12,8 @@ public abstract class Zombie {
     private long sinceLastAttack;
     private long sinceLastMove;
     private static int totalZombie=0;
+    private boolean isSlowed;
+    private long timeSinceLastSlowed;
     
     
     Timer time=new Timer();
@@ -45,6 +47,18 @@ public abstract class Zombie {
     {
         this.health=health;
     }
+    public boolean isSlowed() {
+        return isSlowed;
+    }
+    public void setSlowed(boolean isSlowed) {
+        this.isSlowed = isSlowed;
+    }
+    public long getTimeSinceLastSlowed() {
+        return timeSinceLastSlowed;
+    }
+    public void setTimeSinceLastSlowed(long timeSinceLastSlowed) {
+        this.timeSinceLastSlowed = timeSinceLastSlowed;
+    }
     public int getAttackDamage()
     {
         return attackDamage;
@@ -53,7 +67,7 @@ public abstract class Zombie {
     {
         return attackSpeed;
     }
-    public void setAttack_speed(int attackSpeed)
+    public void setAttackSpeed(int attackSpeed)
     {
         this.attackSpeed=attackSpeed;
     }
