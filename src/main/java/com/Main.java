@@ -91,6 +91,8 @@ public class Main {
                     synchronized(game)
                     {
                         game.getMap().checkAttackPlant();
+                        game.getMap().checkSkillPlant();
+
                     }
                     Thread.sleep(1000); // Perbarui setiap detik
                 }

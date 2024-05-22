@@ -23,8 +23,8 @@ public class PlantFactory implements Factory<Plant> {
                 return new Kelp();
             case "Squash":
                 return new Squash();
-            case "Sunbeans":
-                return new Sunbeans();
+            case "Sunbean":
+                return new Sunbean();
             case "Snowpea":
                 return new Snowpea();
             default:
