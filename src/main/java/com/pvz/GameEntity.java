@@ -80,17 +80,17 @@ public class GameEntity {
             throw new IllegalArgumentException(e.getMessage());
         }
         if (plant != null) {
+            int cost = plant.getCost();
+            if (sun.getValue() < cost) {
+                throw new IllegalArgumentException("Not enough sun");
+            } else {
+                sun.decreaseSun(cost);
+            }
             try {
                 map.getTile(row, col).addPlant(plant);
             } catch (Exception e) {
                 // System.out.println(e.getMessage());
                 throw new IllegalPlantingException(e.getMessage()+": Game Entity");
-            }
-            int cost = plant.getCost();
-            if (sun.getValue() < cost) {
-                throw new IllegalArgumentException("Not enough sun");
-            } else {
-                sun.decreaseSun(cost);;
             }
         }
     }

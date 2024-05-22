@@ -42,7 +42,12 @@ public class Timer {
     }
     public boolean spawn(long sinceLastSpawn)
     {
-        if(getCurrentTime()-sinceLastSpawn>=3000 || sinceLastSpawn==0) return true;
+        if((getCurrentTime()-sinceLastSpawn>=3000 || sinceLastSpawn==0) && getElapsedTime()%200000>=20000 && getElapsedTime()%200000<=160000 ) return true;
+        return false;
+    }
+    public boolean isDay()
+    {
+        if(getElapsedTime()%200000<=100000) return true;
         return false;
     }
 }

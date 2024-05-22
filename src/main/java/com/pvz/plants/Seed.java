@@ -1,10 +1,11 @@
 package com.pvz.plants;
 
+import com.pvz.Timer;
 public class Seed {     
     private PlantType type;
     private boolean onCooldown;
     private long lastUsed;
-
+    private Timer time=Timer.getInstance();
     public Seed(PlantType type) {
         this.type = type;
     }
@@ -22,10 +23,10 @@ public class Seed {
     }
     
     public boolean isOnCooldown() {
-        if (System.currentTimeMillis() - lastUsed > type.getCooldown()) {
-            onCooldown = false;
+        if (time.getCurrentTime() - lastUsed < type.getCooldown()) {
+            return true;
         }
-        return onCooldown;
+        return false;
     }
 
     public void setOnCooldown(boolean value) {
