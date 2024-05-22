@@ -7,6 +7,7 @@ import java.util.List;
 
 import com.pvz.plants.Plant;
 import com.pvz.zombies.Zombie;
+import com.pvz.ExceptionHandling.*;
 
 public class Map {
     public static final String BLUE = "\033[0;34m"; // BLUE
@@ -51,6 +52,20 @@ public class Map {
 
     public int getHeight() {
         return height;
+    }
+
+    public void plant(int row, int col, Plant plant) throws IllegalPlantingException {
+        // col 0 out of bounds
+        // col 11 out of bounds
+        if (row < 0 || row >= height || col <= 0 || col > 9) {
+            throw new IllegalPlantingException("Index out of bounds");
+        } else {
+            try {
+                this.getTile(row, col).addPlant(plant);
+            } catch (Exception e) {
+                throw new IllegalPlantingException(e.getMessage());
+            }
+        }
     }
 
     public void checkMove(GameEntity game) {
