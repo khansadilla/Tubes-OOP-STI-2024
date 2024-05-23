@@ -6,7 +6,7 @@ public class HulkZombie extends Zombie{
     private boolean alreadySquashed;
     public HulkZombie()
     {
-        super("Hulk Zombie", 200,100,1,false,5);
+        super("Hulk Zombie", "HZ", 200,100,1,false,5);
         alreadySquashed=false;
     }
 
