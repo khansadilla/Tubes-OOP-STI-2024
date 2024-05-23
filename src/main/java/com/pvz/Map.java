@@ -3,10 +3,8 @@ package com.pvz;
 
 import java.util.ArrayList;
 import java.util.List;
-
-
-import com.pvz.plants.Plant;
-import com.pvz.zombies.Zombie;
+import com.pvz.plants.*;
+import com.pvz.zombies.*;
 
 public class Map {
     public static final String BLUE = "\033[0;34m"; // BLUE
@@ -71,6 +69,52 @@ public class Map {
 
     }
 
+    public void checkSkillZombie()
+    {
+        for (int row=0; row<height; row++)
+        {
+            for (int col=1; col<width-1; col++)
+            {
+                if(tiles[row][col].isOccupiedByZombie())
+                {
+                    for(Zombie zombie : tiles[row][col].getListZombie())
+                    {
+                        if(zombie instanceof PoleVaultingZombie && tiles[row][col-1].isOccupiedByPlant())
+                        {
+                            if(!(tiles[row][col-1].getPlant() instanceof Wallnut))
+                                {
+                                    PoleVaultingZombie z = (PoleVaultingZombie) zombie;
+                                    if(!z.isAlreadyPoleVaulted()) z.skill(this, row, col, zombie);
+                                }
+                        }
+                        else if(zombie instanceof DolphinRiderZombie && tiles[row][col-1].isOccupiedByPlant())
+                        {
+                            DolphinRiderZombie z = (DolphinRiderZombie) zombie;
+                            if(!z.isAlreadyJumped()) z.skill(this, row, col, zombie);
+                        }
+                        else if (zombie instanceof WizardZombie && tiles[row][col].isOccupiedByPlant())
+                        {
+                            WizardZombie z = (WizardZombie) zombie;
+                            if(!z.isAlreadyChanged()) z.skill(this,row,col,zombie);
+                        }
+                        else if (zombie instanceof HulkZombie && tiles[row][col].isOccupiedByPlant())
+                        {
+                            HulkZombie z = (HulkZombie) zombie;
+                            if(!z.isAlreadySquashed())
+                            {
+                                z.skill(null, row, col);
+                            }
+                        }
+                        else if (zombie instanceof DiggerZombie && tiles[row][col].isOccupiedByPlant())
+                        {
+                            DiggerZombie z = (DiggerZombie) zombie;
+                            if(!z.isAlreadySkipped() && tiles[row][col].getPlant() instanceof Wallnut) z.skill(this, row, col, zombie);
+                        }
+                    }
+                }
+            }
+        }
+    }
     public void checkAttackZombie() {
         for (int row = 0; row < height; row++) {
             for (int col = 1; col < width - 1; col++) {
@@ -80,7 +124,7 @@ public class Map {
             }
         }
     }
-    public void checkAttackPlant2()
+    public void checkAttackPlant()
     {
         for (int row=0; row<height; row++)
         {
@@ -101,44 +145,6 @@ public class Map {
                     {
                         for (Zombie zombie : attackZombieAt.getListZombie()) {
                             plant.attack(zombie);
-                            System.out.println("Berkurang kok : "+zombie.getHealth());
-                        }
-                        for (Zombie zombie : attackZombieAt.getListZombie())
-                        {
-                            if(zombie.getHealth()<=0)
-                            {
-                                toRemove.add(zombie);
-                            }
-                        }
-                        Zombie.setTotalZombie(Zombie.getTotalZombie()-toRemove.size());
-                        attackZombieAt.getListZombie().removeAll(toRemove);
-                    }
-                }
-            }
-        }
-    }
-    public void checkAttackPlant1() {
-        for (int row = 0; row < height; row++) {
-            Tile attackZombieAt = null;
-            int j;
-            for (j = 0; j < width; j++) {
-                if (tiles[row][j].isOccupiedByZombie()) {
-                    attackZombieAt = tiles[row][j];
-                    break;
-                }
-            }
-            if(attackZombieAt==null) continue;
-        
-            for (int col = 1; col < width - 1; col++) {
-
-                if (tiles[row][col].isOccupiedByPlant()) {
-                    Plant plant = tiles[row][col].getPlant();
-                    List<Zombie> toRemove = new ArrayList<>();
-                    if (plant.getRange() ==-1
-                            && time.Attack(plant.getSinceLastAttack(), plant.getAttackSpeed())) {
-                        for (Zombie zombie : attackZombieAt.getListZombie()) {
-                            plant.attack(zombie);
-                            System.out.println("Berkurang kok : "+zombie.getHealth());
                         }
                         for (Zombie zombie : attackZombieAt.getListZombie())
                         {
@@ -189,9 +195,33 @@ public class Map {
 
     public void printZombieandPlant(int row, int col) {
         if (tiles[row][col].isOccupiedByPlant())
-            System.out.print("P");
+        {
+            Plant plant = tiles[row][col].getPlant();
+            if(plant instanceof Sunflower) System.out.print("SF ");
+            else if (plant instanceof Peashooter) System.out.print("PS ");
+            else if (plant instanceof Wallnut) System.out.print("WN ");
+            else if (plant instanceof Snowpea) System.out.print("SP ");
+            else if (plant instanceof Squash) System.out.print("SQ ");
+            else if (plant instanceof Lilypad) System.out.print("LI ");
+            else if (plant instanceof Kelp) System.out.print("KE ");
+            else if (plant instanceof Tallnut) System.out.print("TN ");
+            else if (plant instanceof Jalapeno) System.out.print("JP ");
+            else if (plant instanceof Sunbeans) System.out.print("SB ");
+        }
         if (tiles[row][col].isOccupiedByZombie())
-            System.out.printf("Z%d", tiles[row][col].getListZombie().size());
+            for (Zombie zombie : tiles[row][col].getListZombie())
+            {
+                if (zombie instanceof NormalZombie) System.out.print("NZ ");
+                else if (zombie instanceof ConeheadZombie) System.out.print("CHZ ");
+                else if (zombie instanceof PoleVaultingZombie) System.out.print("PVZ ");
+                else if (zombie instanceof BucketHeadZombie) System.out.print("BHZ ");
+                else if (zombie instanceof DuckyTubeZombie) System.out.print("DTZ ");
+                else if (zombie instanceof DolphinRiderZombie) System.err.print("DRZ ");
+                else if (zombie instanceof WizardZombie) System.out.print("WZ ");
+                else if (zombie instanceof HulkZombie) System.out.print("HZ ");
+                else if (zombie instanceof DiggerZombie) System.out.print("DZ ");
+                else if (zombie instanceof TrexZombie) System.out.print("TZ ");
+            }
     }
 
 }

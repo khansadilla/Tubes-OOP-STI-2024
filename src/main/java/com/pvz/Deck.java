@@ -30,7 +30,6 @@ public class Deck {
                         // System.out.println("Plant is on cooldown");
                     } else {
                         Plant plant = plantFactory.create(System.currentTimeMillis(), type);
-                        seed.setOnCooldown(true);
                         seed.setLastUsed(timer.getCurrentTime());
                         return plant;
                     }
@@ -40,6 +39,10 @@ public class Deck {
                 System.out.println("Plant not found");
             }
         } catch (IllegalTypeException e) {
+            System.out.println(e.getMessage());
+        }
+        catch (CooldownException e)
+        {
             System.out.println(e.getMessage());
         }
         return null;

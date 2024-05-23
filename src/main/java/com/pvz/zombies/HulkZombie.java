@@ -1,5 +1,7 @@
 package com.pvz.zombies;
 
+import com.pvz.Map;
+
 public class HulkZombie extends Zombie{
     private boolean alreadySquashed;
     public HulkZombie()
@@ -8,12 +10,16 @@ public class HulkZombie extends Zombie{
         alreadySquashed=false;
     }
 
-    public void plantSquashing()
+    public void skill(Map map, int row, int col)
     {
-        
+        alreadySquashed=true;
+        map.getTile(row, col).removePlant();
     }
-
-    public boolean hasAlreadySquashed() {
+    public boolean isAlreadySquashed() {
         return alreadySquashed;
     }
+    public void setAlreadySquashed(boolean alreadySquashed) {
+        this.alreadySquashed = alreadySquashed;
+    }
+    
 }

@@ -54,7 +54,15 @@ public class GameEntity {
     }
     
     public boolean isGameOver() {
-        return isGameOver;
+        if ((timer.getElapsedTime()%200000>160000 || timer.getElapsedTime()%200000<20000) && timer.getElapsedTime()>160000)
+        {
+            if(Zombie.getTotalZombie()==0) return true;
+        }
+        for (int i=0; i<map.getHeight(); i++)
+        {
+            if(map.getTile(i, 0).isOccupiedByZombie()) return true;
+        }
+        return false;
     }
     
     public void setGameOver(boolean isGameOver) {
@@ -80,17 +88,17 @@ public class GameEntity {
             throw new IllegalArgumentException(e.getMessage());
         }
         if (plant != null) {
+            int cost = plant.getCost();
+            if (sun.getValue() < cost) {
+                throw new IllegalArgumentException("Not enough sun");
+            } else {
+                sun.decreaseSun(cost);
+            }
             try {
                 map.getTile(row, col).addPlant(plant);
             } catch (Exception e) {
                 // System.out.println(e.getMessage());
                 throw new IllegalPlantingException(e.getMessage()+": Game Entity");
-            }
-            int cost = plant.getCost();
-            if (sun.getValue() < cost) {
-                throw new IllegalArgumentException("Not enough sun");
-            } else {
-                sun.decreaseSun(cost);;
             }
         }
     }
@@ -115,6 +123,7 @@ public class GameEntity {
             }
         }
     }
+
     
     public Zombie spawnZombiePool() {
         try {
