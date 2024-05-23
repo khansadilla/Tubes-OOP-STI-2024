@@ -264,7 +264,7 @@ public class Map {
             else if (plant instanceof Kelp) System.out.print("KE ");
             else if (plant instanceof Tallnut) System.out.print("TN ");
             else if (plant instanceof Jalapeno) System.out.print("JP ");
-            else if (plant instanceof Sunbeans) System.out.print("SB ");
+            else if (plant instanceof Sunbean) System.out.print("SB ");
         }
         if (tiles[row][col].isOccupiedByZombie())
             for (Zombie zombie : tiles[row][col].getListZombie())

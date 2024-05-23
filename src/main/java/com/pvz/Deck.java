@@ -19,6 +19,10 @@ public class Deck {
         return seeds.isEmpty();
     }
 
+    public boolean isFull() {
+        return (seeds.size() == 6);
+    }
+
     public Plant getPlant(String type) throws CooldownException{
         try {
             boolean found = false;
@@ -64,7 +68,7 @@ public class Deck {
     }
 
     public void addSeed(Seed seed) {
-        if (seeds.size() < 6){
+        if (!isFull()){
             if (!seeds.contains(seed)) {
                 seeds.add(seed);
             } else {

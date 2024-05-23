@@ -133,7 +133,7 @@ public class Main {
                     buildDeck(game);
                     break;
                 case "2":
-                    if (!game.getDeck().isEmpty()) {
+                    if (game.getDeck().isFull()) {
                         System.out.println("Game is starting.");
                         gameThread.start();
                         zombieThread.start();
@@ -143,7 +143,7 @@ public class Main {
                             handleInput(game);
                         }
                     } else {
-                        System.out.println("Deck is empty. Please build your deck first");
+                        System.out.println("Deck is not full. Please build your deck first");
                     }
                     break;
                 case "3":
@@ -181,11 +181,12 @@ public class Main {
                         inventory.printInventory();
                         deck.printDeck();
                         System.out.println("Enter 'exit' to stop adding seeds");
-                        String seed = scanner.nextLine();
-                        if (seed.equals("exit")) {
+                        // String seed = scanner.nextLine();
+                        Integer seed = scanner.nextInt();
+                        if (seed.equals(0)) {
                             isAdding = false;
                         }
-                        Seed seedInput = inventory.getSeed(seed);
+                        Seed seedInput = inventory.getSeedInt(seed);
                         try {
                             if (seedInput != null) {
                                 deck.addSeed(seedInput);

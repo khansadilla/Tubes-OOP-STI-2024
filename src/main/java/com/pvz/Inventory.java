@@ -36,6 +36,14 @@ public class Inventory {
         return null;
     }
 
+    public Seed getSeedInt(Integer slot) {
+        if (slot < 1 || slot > seeds.size()) {
+            System.out.println("Invalid slot number");
+            return null;
+        }
+        return seeds.get(slot - 1);
+    }
+
     public void printInventory() {
         System.out.println("Inventory: ");
         for (Seed seed : seeds) {
