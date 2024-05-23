@@ -6,27 +6,30 @@ public class Timer {
     private static long currentTime = System.currentTimeMillis();
     private static long elapsedTime;
     
-    public Timer() {
-        startTime = currentTime;
-    }
-
     public static Timer getInstance() {
         if (instance == null) {
             instance = new Timer();
+            startTime=System.currentTimeMillis();
         }
         return instance;
     }
-
+    
     public long getStartTime() {
         return startTime;
     }
-
+    
+    public static void  setStartTime(long start)
+    {
+        startTime=start;
+    }
+    
     public long getCurrentTime() {
         currentTime = System.currentTimeMillis();
         return currentTime;
     }
-
+    
     public long getElapsedTime() {
+        currentTime=System.currentTimeMillis();
         elapsedTime = (currentTime - startTime);
         return elapsedTime;
     }    
