@@ -6,6 +6,15 @@ import java.util.List;
 import com.pvz.plants.*;
 import com.pvz.zombies.*;
 
+import com.pvz.plants.Jalapeno;
+import com.pvz.plants.Plant;
+import com.pvz.plants.Snowpea;
+import com.pvz.plants.Squash;
+import com.pvz.plants.Sunbean;
+import com.pvz.plants.Sunflower;
+import com.pvz.zombies.Zombie;
+import com.pvz.ExceptionHandling.*;
+
 public class Map {
     public static final String BLUE = "\033[0;34m"; // BLUE
     public static final String GREEN = "\033[0;32m"; // GREEN
@@ -49,6 +58,20 @@ public class Map {
 
     public int getHeight() {
         return height;
+    }
+
+    public void plant(int row, int col, Plant plant) throws IllegalPlantingException {
+        // col 0 out of bounds
+        // col 11 out of bounds
+        if (row < 0 || row >= height || col <= 0 || col > 9) {
+            throw new IllegalPlantingException("Index out of bounds");
+        } else {
+            try {
+                this.getTile(row, col).addPlant(plant);
+            } catch (Exception e) {
+                throw new IllegalPlantingException(e.getMessage());
+            }
+        }
     }
 
     public void checkMove(GameEntity game) {
@@ -145,6 +168,12 @@ public class Map {
                     {
                         for (Zombie zombie : attackZombieAt.getListZombie()) {
                             plant.attack(zombie);
+                            if (plant instanceof Snowpea) {
+                                ((Snowpea)plant).skill(zombie);
+                                zombie.setTimeSinceLastSlowed(time.getCurrentTime());
+                            } else if (plant instanceof Squash) {
+                                ((Squash)plant).selfDestruct();
+                            }
                         }
                         for (Zombie zombie : attackZombieAt.getListZombie())
                         {
@@ -155,6 +184,35 @@ public class Map {
                         }
                         Zombie.setTotalZombie(Zombie.getTotalZombie()-toRemove.size());
                         attackZombieAt.getListZombie().removeAll(toRemove);
+                    }
+                }
+            }
+        }
+    }
+
+    public void checkSkillPlant() {
+        for (int row = 0; row < height; row++) {
+            for (int col = 1; col < width - 1; col++) {
+                if (tiles[row][col].isOccupiedByPlant()) {
+                    Plant plant = tiles[row][col].getPlant();
+                    if (plant instanceof Jalapeno) {
+                        ((Jalapeno)plant).skill(this, row);
+                        ((Jalapeno)plant).selfDestruct();
+                    } else if (plant instanceof Sunbean) {
+                        Zombie infected = null;
+                        for (int i = col; i < width; i++) {
+                            Tile attackZombieAt=tiles[row][i];
+                            for (Zombie zombie : attackZombieAt.getListZombie()) {
+                                infected = zombie;
+                                break;
+                            }
+                            if (infected != null) {
+                                infected.setHealth(infected.getHealth() - 50);
+                                Sun.getInstance().addSun(25);
+                            }
+                        }
+                    } else if (plant instanceof Sunflower) {
+                        ((Sunflower)plant).skill();
                     }
                 }
             }

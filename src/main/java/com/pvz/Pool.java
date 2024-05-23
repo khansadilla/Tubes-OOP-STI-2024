@@ -19,7 +19,7 @@ public class Pool extends Tile {
     }
     @Override
     public boolean isPlantValid(Plant plant){
-        if((plant instanceof Lilypad && !hasLilypad) || plant.isAquatic() && hasLilypad()) return true;
+        if((plant instanceof Lilypad && !hasLilypad) || !plant.isAquatic() && hasLilypad()) return true;
         return false;
     }
     @Override
