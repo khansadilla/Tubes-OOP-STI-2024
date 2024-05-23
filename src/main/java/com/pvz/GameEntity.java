@@ -56,13 +56,14 @@ public class GameEntity {
     public boolean isGameOver() {
         if ((timer.getElapsedTime()%200000>160000 || timer.getElapsedTime()%200000<20000) && timer.getElapsedTime()>160000)
         {
-            if(Zombie.getTotalZombie()==0) return true;
+            if(Zombie.getTotalZombie()==0) isGameOver = true;
         }
         for (int i=0; i<map.getHeight(); i++)
         {
-            if(map.getTile(i, 0).isOccupiedByZombie()) return true;
+            if(map.getTile(i, 0).isOccupiedByZombie()) isGameOver = true;
         }
-        return false;
+        isGameOver = false;
+        return isGameOver;
     }
     
     public void setGameOver(boolean isGameOver) {
