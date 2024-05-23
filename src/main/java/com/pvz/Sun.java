@@ -12,7 +12,7 @@ public class Sun {
     private Timer timer = Timer.getInstance();
 
     private Sun(){
-        setValue(0);
+        setValue(10000);
         random = new Random();
         lastSunTime = timer.getCurrentTime();
         currentTime = timer.getCurrentTime();
@@ -32,7 +32,7 @@ public class Sun {
     public void addSun(int x){
         value+=x;
     }
-    public void decSun(int x){
+    public void decreaseSun(int x){
         value-=x;
     }
     public int getValue(){
