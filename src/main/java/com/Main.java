@@ -2,7 +2,7 @@ package com;
 
 import com.pvz.*;
 import com.pvz.plants.Seed;
-import com.pvz.zombies.Zombie;
+
 
 import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicLong;

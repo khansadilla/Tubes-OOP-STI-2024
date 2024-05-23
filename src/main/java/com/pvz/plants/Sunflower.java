@@ -1,6 +1,5 @@
 package com.pvz.plants;
 
-import com.pvz.GameEntity;
 import com.pvz.Sun;
 import com.pvz.Timer;
 

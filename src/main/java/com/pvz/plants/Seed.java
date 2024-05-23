@@ -24,9 +24,10 @@ public class Seed {
     
     public boolean isOnCooldown() {
         if (time.getCurrentTime() - lastUsed < type.getCooldown()) {
-            return true;
+            onCooldown = true;
         }
-        return false;
+        onCooldown = false;
+        return onCooldown;
     }
 
     public void setOnCooldown(boolean value) {
