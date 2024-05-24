@@ -16,7 +16,8 @@ Selamat datang di program permainan **Michael vs. Lalapan**! Program ini merupak
 2. Gradle
 
 ## Cara Memainkan:
-1. Clone repository ini pada _directory_ anda
+1. Clone repository ini pada _directory_ anda:
+2.     https://github.com/khansadilla/Tubes-OOP-STI-2024
     
-2. Jalankan program dengan menggunakan _command_ :
-3.      .\gradlew -q run
+3. Jalankan program dengan menggunakan _command_ :
+4.      .\gradlew -q run
