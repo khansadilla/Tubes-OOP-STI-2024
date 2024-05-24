@@ -54,15 +54,17 @@ public class Action {
         Thread gameThread = new Thread(() -> {
             try {
                 while (!game.isGameOver()) {
-                    // System.out.println("detik ke"+time.getElapsedTime()/1000);
-    
-                    sun.generateSun();
-                    game.checkGameOver();
-                    game.update();
-                    if(game.isGameOver())
+                    synchronized(game)
                     {
-                        zombieThread.interrupt();
-                        plantThread.interrupt();
+                        // System.out.println("detik ke"+time.getElapsedTime()/1000);   
+                        sun.generateSun();
+                        game.checkGameOver();
+                        game.update();
+                        if(game.isGameOver())
+                        {
+                            zombieThread.interrupt();
+                            plantThread.interrupt();
+                        }
                     }
                     // game.getMap().printMap();
                     Thread.sleep(1000); // Perbarui setiap detik
@@ -71,6 +73,9 @@ public class Action {
                 System.out.println("Game loop interrupted");
             }
         });
+        gameThread.setName("Game Thread");
+        zombieThread.setName("Zombie Thread");
+        plantThread.setName("Plant Thread");
         gameThread.start();
         zombieThread.start();
         plantThread.start();

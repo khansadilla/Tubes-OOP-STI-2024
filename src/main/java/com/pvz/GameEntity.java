@@ -1,5 +1,7 @@
 package com.pvz;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Random;
 
 import com.pvz.plants.*;
@@ -67,16 +69,17 @@ public class GameEntity {
     {
         if ((timer.getElapsedTime()%200000>160000 || timer.getElapsedTime()%200000<20000) && timer.getElapsedTime()>160000)
         {
-            if(Zombie.getTotalZombie()==0) isGameOver = true;
+            if(Zombie.getTotalZombie()==0) {isGameOver = true; System.out.println("Game Over! You Won!!!");}
         }
         for (int i=0; i<map.getHeight(); i++)
         {
-            if(map.getTile(i, 0).isOccupiedByZombie()) isGameOver = true;
+            if(map.getTile(i, 0).isOccupiedByZombie()) {isGameOver = true; System.out.println("Game Over!!! You Lose!!!");}
         }
     }
 
     public void update()
     {
+        List<Zombie> toRemove = new ArrayList<>();
         for (int i=0; i<6; i++)
         {
             for (int j=1; j<map.getWidth()-1; j++)
@@ -91,8 +94,12 @@ public class GameEntity {
                 {
                     for(Zombie zombie : tile.getListZombie())
                     {
-                        if(zombie.getHealth()<=0) tile.removeZombie(zombie);
+                        if(zombie.getHealth()<=0) {
+                            toRemove.add(zombie);
+                        }
                     }
+                    Zombie.setTotalZombie(Zombie.getTotalZombie()-toRemove.size());
+                    tile.getListZombie().removeAll(toRemove);
                 }
             }
         }
@@ -149,7 +156,7 @@ public class GameEntity {
             Tile tile = map.getTile(i , 10);
             spawnRoll = random.nextFloat(); // 0.0 < spawnRoll < 1.0
             
-            if (spawnRoll < 0.3 && Zombie.getTotalZombie()<10) {  // 30% chance
+            if (spawnRoll < 0.3 && Zombie.getTotalZombie()<1) {  // 30% chance
                 System.out.println("Ini jumlah zombie :"+Zombie.getTotalZombie());
                 if (tile instanceof Pool) {
                     tile.addZombie(spawnZombiePool());
