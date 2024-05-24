@@ -15,9 +15,8 @@ Selamat datang di program permainan **Michael vs. Lalapan**! Program ini merupak
 1. Java
 2. Gradle
 
-Sebelum dijalankan, program harus di-*compile* terlebih dahulu. Untuk membuka *compiler*, buka terminal dari *directory* **src** dan ketik instruksi di bawah ini.
-
-    java.main...
-
-
-## Cara Menjalankan Program
+## Cara Memainkan:
+1. Clone repository ini pada _directory_ anda
+    
+2. Jalankan program dengan menggunakan _command_ :
+   .\gradlew -q run
