@@ -73,9 +73,9 @@ public class Main {
                         game.gameReset();      
                         System.out.println("Flag mode? on/off");
                         String flagmode = scanner.nextLine();  
-                        if (flagmode == "on") {
+                        if (flagmode.equals("on")) {
                             game.setFlag(true);
-                        } else if (flagmode == "off") {
+                        } else if (flagmode.equals("off")) {
                             game.setFlag(false);
                         }
                         action.startGame(game);
