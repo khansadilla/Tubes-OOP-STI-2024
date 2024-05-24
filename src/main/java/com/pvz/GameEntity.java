@@ -33,6 +33,15 @@ public class GameEntity {
         this.inventory = new Inventory();
     }
     
+    public void gameReset()
+    {
+        this.map = new Map(6, 11); 
+        this.sun = Sun.getInstance();
+        this.random = new Random();
+        this.isGameOver = false;
+        this.timer = Timer.getInstance();
+        this.zombieFactory = new ZombieFactory();
+    }
     public int getSun() {
         return sun.getValue();
     }
@@ -52,8 +61,9 @@ public class GameEntity {
     public Inventory getInventory() {
         return inventory;
     }
-    
-    public boolean isGameOver() {
+
+    public void checkGameOver()
+    {
         if ((timer.getElapsedTime()%200000>160000 || timer.getElapsedTime()%200000<20000) && timer.getElapsedTime()>160000)
         {
             if(Zombie.getTotalZombie()==0) isGameOver = true;
@@ -62,7 +72,8 @@ public class GameEntity {
         {
             if(map.getTile(i, 0).isOccupiedByZombie()) isGameOver = true;
         }
-        isGameOver = false;
+    }
+    public boolean isGameOver() {
         return isGameOver;
     }
     

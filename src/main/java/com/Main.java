@@ -1,10 +1,9 @@
 package com;
 
-import com.gui.Game;
 import com.pvz.*;
 import com.pvz.plants.Seed;
 
-
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -48,76 +47,15 @@ public class Main {
         System.out.println(gameTitle);
 
         GameEntity game = new GameEntity();
+        
+        Action action=new Action();
         // Scanner scanner = new Scanner(System.in);
-        Sun sun = Sun.getInstance();
-        
-        AtomicLong sinceLastSpawn = new AtomicLong(0);
-        Timer time = Timer.getInstance();
-        
-        // Thread untuk aksi Zombie
-        // Thread untuk update game
-        Thread zombieThread = new Thread(() -> {
-            try {
-                while (!game.isGameOver()) {
-                    synchronized (game)
-                    {
-                        if (time.spawn(sinceLastSpawn.get())) {
-                            game.getMap().checkAttackZombie();
-                            game.spawnZombieinRow();
-                            sinceLastSpawn.set(time.getCurrentTime());
-                        }
-                        game.getMap().checkAttackZombie();
-                        game.getMap().checkMove(game);
-                    }
-                    Thread.sleep(1000); // Perbarui setiap detik
-                }
-            } catch (InterruptedException e) {
-                System.out.println("Zombie loop interrupted");
-            }
-        });
-        
-        // Thread untuk aksi Plant
-        Thread plantThread = new Thread(() -> {
-            try {
-                while (!game.isGameOver()) {
-                    synchronized(game)
-                    {
-                        game.getMap().checkAttackPlant();
-                        game.getMap().checkSkillPlant();
-
-                    }
-                    Thread.sleep(1000); // Perbarui setiap detik
-                }
-            } catch (InterruptedException e) {
-                System.out.println("Plant loop interrupted");
-            }
-        });
-        
-        Thread gameThread = new Thread(() -> {
-            try {
-                while (!game.isGameOver()) {
-                    System.out.println("detik ke"+time.getElapsedTime()/1000);
-
-                    sun.generateSun();
-                    if(game.isGameOver())
-                    {
-                        zombieThread.interrupt();
-                        plantThread.interrupt();
-                    }
-
-                    // game.getMap().printMap();
-                    Thread.sleep(1000); // Perbarui setiap detik
-                }
-            } catch (InterruptedException e) {
-                System.out.println("Game loop interrupted");
-            }
-        });
         System.out.println("Welcome to Plants vs Zombies!");
         System.out.println("Here are some commands to get you started");
         
         // Thread utama untuk menerima input dari pengguna
         boolean isRunning = true;
-        while (isRunning && !game.isGameOver()) {
+        while (isRunning) {
             System.out.println("0. exit - Exit the game");
             System.out.println("1. start - Start the game");
             System.out.println("2. build deck -  Build your own deck");
@@ -133,10 +71,8 @@ public class Main {
                 case "1":
                     if (game.getDeck().isFull()) {
                         System.out.println("Game is starting.");
-                        gameThread.start();
-                        zombieThread.start();
-                        plantThread.start();
-                        Timer.setStartTime(time.getCurrentTime());
+                        game.gameReset();                  
+                        action.startGame(game);
                         while (!game.isGameOver() && isRunning) {
                             handleInput(game);
                         }
@@ -161,12 +97,9 @@ public class Main {
                     game.printGame();
             }
         }
-        if (game.isGameOver() || !isRunning) {
-            System.out.println("Game Over!");
-            gameThread.interrupt();
-            zombieThread.interrupt();
-            plantThread.interrupt();
-            scanner.close();
+        if (!isRunning) {
+            System.out.println("See you next time!");
+            return;
         }
     }
 
@@ -176,24 +109,37 @@ public class Main {
         boolean isBuilding = true;
         while (isBuilding) {
             System.out.println("Build your deck");
+            System.out.println("0. Exit building deck");
             System.out.println("1. Add a seed");
             System.out.println("2. Remove a seed");
             System.out.println("3. Swap two seed");
-            System.out.println("4. Exit building deck");
             String input = scanner.nextLine();
             switch (input) {
                 case "1":
                     boolean isAdding = true;
                     while (isAdding) {
+                        Integer seed;
+                        while (true) {
                         System.out.println("Pick a seed");
                         inventory.printInventory();
                         deck.printDeck();
-                        System.out.println("Enter 'exit' to stop adding seeds");
+                        System.out.println("Enter '0' to stop adding seeds");
                         // String seed = scanner.nextLine();
-                        Integer seed = scanner.nextInt();
+                            try {
+                                seed = scanner.nextInt();
+                                if (seed < 0 || seed > inventory.getSeeds().size()) {
+                                    System.out.println("Invalid input");
+                                } else {
+                                    break;
+                                }
+                            } catch (InputMismatchException e) {
+                                System.out.println("Invalid input");
+                                scanner.nextLine();
+                            }
+                        }
                         if (seed.equals(0)) {
                             isAdding = false;
-                        }
+                        } 
                         Seed seedInput = inventory.getSeedInt(seed);
                         try {
                             if (seedInput != null) {
@@ -234,7 +180,7 @@ public class Main {
                     }
                     deck.printDeck();
                     break;
-                case "4":
+                case "0":
                     isBuilding = false;
                     break;
                 default:
