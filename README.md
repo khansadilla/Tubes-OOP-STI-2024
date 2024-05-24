@@ -19,4 +19,4 @@ Selamat datang di program permainan **Michael vs. Lalapan**! Program ini merupak
 1. Clone repository ini pada _directory_ anda
     
 2. Jalankan program dengan menggunakan _command_ :
-   .\gradlew -q run
+3.      .\gradlew -q run
