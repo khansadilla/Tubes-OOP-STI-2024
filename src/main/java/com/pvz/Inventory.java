@@ -44,6 +44,16 @@ public class Inventory {
         return seeds.get(slot - 1);
     }
 
+    public void swapSeeds(int first, int second) throws IllegalArgumentException{
+        if (first < 0 || first >= seeds.size() || second < 0 || second >= seeds.size()) {
+            throw new IllegalArgumentException("Invalid slot number");
+        }
+        Seed firstSeed = seeds.get(first);
+        Seed temp = seeds.get(second);
+        seeds.set(second, firstSeed);
+        seeds.set(first, temp);
+    }
+
     public void printInventory() {
         System.out.println("Inventory: ");
         for (Seed seed : seeds) {
