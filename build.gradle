@@ -1,0 +1,19 @@
+plugins {
+    id 'java'
+}
+
+java {
+    toolchain {
+        languageVersion = JavaLanguageVersion.of(17)
+    }
+}
+
+version = '1.2.1'
+
+apply plugin: 'application'
+
+mainClassName = 'com.Main'
+
+run {
+    standardInput = System.in
+}

@@ -140,30 +140,34 @@ public class Map {
                     }
                     Plant plant = tiles[row][col].getPlant();
                     Tile attackZombieAt = tiles[row][i];
-                    List<Zombie> toRemove = new ArrayList<>();
-                    if ((plant.getRange() == -1 || (plant.getRange() == 1 && i - col == 1)) &&
-                            time.Attack(plant.getSinceLastAttack(), plant.getAttackSpeed())) {
-                        for (Zombie zombie : attackZombieAt.getListZombie()) {
-                            plant.attack(zombie);
-                            if (plant instanceof Snowpea) {
-                                ((Snowpea) plant).skill(zombie);
-                                zombie.setTimeSinceLastSlowed(time.getCurrentTime());
-                            } else if (plant instanceof Squash) {
-                                ((Squash) plant).selfDestruct();
+                    if ((time.Attack(plant.getSinceLastAttack(), plant.getAttackSpeed()))) 
+                    {
+                        if(plant.getRange()==-1)
+                        {
+                            for (Zombie zombie : attackZombieAt.getListZombie()) {
+                                plant.attack(zombie);
+                                if (plant instanceof Snowpea) {
+                                    ((Snowpea) plant).skill(zombie);
+                                    zombie.setTimeSinceLastSlowed(time.getCurrentTime());
+                                }
                             }
                         }
-                        for (Zombie zombie : attackZombieAt.getListZombie()) {
-                            if (zombie.getHealth() <= 0) {
-                                toRemove.add(zombie);
-                            }
+                        else if(plant.getRange()==1)
+                        {
+                            if((i-col==0 || i-col==1))
+                            {
+                                Zombie.setTotalZombie(Zombie.getTotalZombie()-attackZombieAt.getListZombie().size());
+                                attackZombieAt.removeZombie();
+                                if(plant instanceof Squash) ((Squash) plant).selfDestruct();
+                                else if (plant instanceof Kelp)((Kelp) plant).selfDestruct();
+                            }  
                         }
-                        Zombie.setTotalZombie(Zombie.getTotalZombie() - toRemove.size());
-                        attackZombieAt.getListZombie().removeAll(toRemove);
                     }
+                    
+                }
                 }
             }
         }
-    }
 
     public void checkSkillPlant() {
         for (int row = 0; row < height; row++) {

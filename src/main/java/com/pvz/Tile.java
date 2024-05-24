@@ -1,7 +1,7 @@
 package com.pvz;
 
 import java.util.List;
-import com.pvz.plants.Plant;
+import com.pvz.plants.*;
 import com.pvz.zombies.Zombie;
 import java.util.ArrayList;
 import com.pvz.ExceptionHandling.*;
@@ -53,9 +53,9 @@ public abstract class Tile {
         plant = null;
     }
 
-    public void removeZombie(Zombie zombie)
+    public void removeZombie()
     {
-        ZombieList.remove(zombie);
+        ZombieList.clear();
     }
     public List<Zombie> moveZombie() {
         List<Zombie> movZombies = new ArrayList<>();
@@ -76,8 +76,11 @@ public abstract class Tile {
     public void zombieAttack() {
         for (Zombie zombie : ZombieList) {
             if (time.Attack(zombie.getSinceLastAttack(), zombie.getAttackSpeed())) {
-                zombie.attack(plant);
-                zombie.setSinceLastAttack(time.getCurrentTime());
+                if(!(plant instanceof Jalapeno) && !(plant instanceof Kelp) && !(plant instanceof Squash))
+                {
+                    zombie.attack(plant);
+                    zombie.setSinceLastAttack(time.getCurrentTime());
+                }
             }
         }
     }
