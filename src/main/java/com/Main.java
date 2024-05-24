@@ -70,7 +70,14 @@ public class Main {
                 case "1":
                     if (game.getDeck().isFull()) {
                         System.out.println("Game is starting.");
-                        game.gameReset();                  
+                        game.gameReset();      
+                        System.out.println("Flag mode? on/off");
+                        String flagmode = scanner.nextLine();  
+                        if (flagmode == "on") {
+                            game.setFlag(true);
+                        } else if (flagmode == "off") {
+                            game.setFlag(false);
+                        }
                         action.startGame(game);
                         while (!game.isGameOver() && isRunning) {
                             handleInput(game);

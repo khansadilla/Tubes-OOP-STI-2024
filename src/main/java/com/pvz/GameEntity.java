@@ -23,7 +23,21 @@ public class GameEntity {
     "Digger Zombie", "Hulk Zombie", "Pole Vaulting Zombie", 
     "Trex Zombie", "Wizard Zombie"};
     private ZombieFactory zombieFactory;
-    
+    private boolean flag;
+    private int zombieLimit = 10;
+
+    public void setZombieLimit(int zombieLimit) {
+        this.zombieLimit = zombieLimit;
+    }
+
+    public void setFlag(boolean flag) {
+        this.flag = flag;
+    }
+
+    public boolean isFlag() {
+        return flag;
+    }
+
     public GameEntity() {
         this.map = new Map(6, 11); 
         this.sun = Sun.getInstance();
@@ -49,6 +63,8 @@ public class GameEntity {
         return sun.getValue();
     }
     
+    
+
     public Map getMap() {
         return map;
     }
@@ -149,15 +165,15 @@ public class GameEntity {
 
     public void Dig(int row, int col) {
         map.getTile(row, col).removePlant();
-    }
+    } 
     
     public void spawnZombieinRow() {
         for (int i = 0; i < map.getHeight(); i++) {
             Tile tile = map.getTile(i , 10);
             spawnRoll = random.nextFloat(); // 0.0 < spawnRoll < 1.0
             
-            if (spawnRoll < 0.3 && Zombie.getTotalZombie()<1) {  // 30% chance
-                System.out.println("Ini jumlah zombie :"+Zombie.getTotalZombie());
+            if (spawnRoll < 0.3 && Zombie.getTotalZombie()<zombieLimit) {  // 30% chance
+                // System.out.println("Ini jumlah zombie :"+Zombie.getTotalZombie());
                 if (tile instanceof Pool) {
                     tile.addZombie(spawnZombiePool());
                     Zombie.setTotalZombie(Zombie.getTotalZombie()+1);

@@ -22,6 +22,12 @@ public class Action {
                         if (time.spawn(sinceLastSpawn.get())) {
                             game.getMap().checkAttackZombie();
                             game.spawnZombieinRow();
+                            if (game.isFlag() && time.getElapsedTime()> 60000 && time.getElapsedTime()<90000){
+                                game.setZombieLimit(25);
+                                game.spawnZombieinRow();
+                            } else {
+                                game.setZombieLimit(10);
+                            }
                             sinceLastSpawn.set(time.getCurrentTime());
                         }
                         game.getMap().checkAttackZombie();
