@@ -55,8 +55,6 @@ public class Action {
         Thread gameThread = new Thread(() -> {
             try {
                 while (!game.isGameOver()) {
-                    // System.out.println("detik ke"+time.getElapsedTime()/1000);
-    
                     sun.generateSun();
                     game.checkGameOver();
                     if(game.isGameOver())
