@@ -132,7 +132,8 @@ public class Deck {
     public void printDeckVertical() {
         System.out.print("Deck: ");
         for (Seed seed : seeds) {
-            System.out.print(seed.getType().getName()+" | ");
+            System.out.printf("%d. " , seeds.indexOf(seed)+1);
+            System.out.print( seed.getType().getName() +"(" + seed.getType().getCost() +") | ");
         }
         System.out.println();
     }
