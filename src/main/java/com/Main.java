@@ -273,9 +273,7 @@ public class Main {
                 System.out.println("Invalid input");
             }
         } else if (input.equals("help")) {
-            System.out.println("List of commands:");
-            System.out.println("plant [row] [col] [type] - Plant a seed");
-            System.out.println("help - List of commands");
+            printHelp();
         } else if (input.equals("List plants")) {
             game.getInventory().printInventory();
         } else if (input.equals("List zombies")) {
@@ -303,7 +301,19 @@ public class Main {
         System.out.println("10. Pole Vaulting Zombie");
     }
     public static void printHelp() {
-
+        System.out.println("List of commands in the main menu: ");
+        System.out.println("0. exit - Exit the game");
+        System.out.println("1. start - Start the game");
+        System.out.println("2. build deck -  Build your own deck");
+        System.out.println("3. open inventory - List of plants you can use");
+        System.out.println("4. help - list of commands");
+        System.out.println("5. plants list - Lists of plants you can use");
+        System.out.println("6. zombies list - List of zombies that can spawn");
+        System.out.println("List of commands in the game: ");
+        System.out.println("plant <row> <col> <plant type> - Plant a plant in a tile");
+        System.out.println("dig <row> <col> - Remove a plant from a tile");
+        System.out.println("help - List of commands");
+        System.out.println("exit - Exit the game");
     }
     public static void printSwapSeedinInventory(GameEntity game) {
         System.out.println("Would you like to swap seeds? (y/n)");
