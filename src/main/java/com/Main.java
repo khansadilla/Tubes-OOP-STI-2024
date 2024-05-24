@@ -57,8 +57,8 @@ public class Main {
         boolean isRunning = true;
         while (isRunning && !game.isGameOver()) {
             System.out.println("0. EXIT - Exit the game");
-            System.out.println("1. BUILD DECK -  Build your own deck");
-            System.out.println("2. START - Start the game");
+            System.out.println("1. START - Start the game");
+            System.out.println("2. BUILD DECK -  Build your own deck");
             System.out.println("3. HELP - list of commands");
             System.out.println("4. LIST OF PLANTS - List of plants you can use");
             System.out.println("5. LIST OF ZOMBIES - List of zombies that can spawn");
