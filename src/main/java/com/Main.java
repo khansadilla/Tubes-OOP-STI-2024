@@ -55,14 +55,14 @@ public class Main {
         
         // Thread utama untuk menerima input dari pengguna
         boolean isRunning = true;
-        while (isRunning) {
-            System.out.println("0. exit - Exit the game");
-            System.out.println("1. start - Start the game");
-            System.out.println("2. build deck -  Build your own deck");
-            System.out.println("3. open inventory - List of plants you can use");
-            System.out.println("4. help - list of commands");
-            System.out.println("5. plants list - Lists of plants you can use");
-            System.out.println("6. zombies list - List of zombies that can spawn");
+        while (isRunning && !game.isGameOver()) {
+            System.out.println("0. EXIT - Exit the game");
+            System.out.println("1. BUILD DECK -  Build your own deck");
+            System.out.println("2. START - Start the game");
+            System.out.println("3. HELP - list of commands");
+            System.out.println("4. LIST OF PLANTS - List of plants you can use");
+            System.out.println("5. LIST OF ZOMBIES - List of zombies that can spawn");
+            System.out.print(YELLOW + "\nInput your command: " + RESET);
             String userInput = scanner.nextLine();
             switch (userInput) {
                 case "0":
