@@ -7,7 +7,7 @@ public class WizardZombie extends Zombie {
     
     public WizardZombie()
     {
-        super("Wizard Zombie",150,100,1,false,5);
+        super("Wizard Zombie", "WZ", 150,100,1,false,5);
         alreadyChanged=false;
     }
     

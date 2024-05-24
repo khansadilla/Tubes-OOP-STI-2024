@@ -3,7 +3,7 @@ package com;
 import com.pvz.*;
 import com.pvz.plants.Seed;
 
-
+import java.util.InputMismatchException;
 import java.util.Scanner;
 import java.util.concurrent.atomic.AtomicLong;
 
@@ -47,77 +47,11 @@ public class Main {
         System.out.println(gameTitle);
 
         GameEntity game = new GameEntity();
+        
+        Action action=new Action();
         // Scanner scanner = new Scanner(System.in);
-        Sun sun = Sun.getInstance();
-        
-        AtomicLong sinceLastSpawn = new AtomicLong(0);
-        Timer time = Timer.getInstance();
-        
-        // Thread untuk aksi Zombie
-        // Thread untuk update game
-        Thread zombieThread = new Thread(() -> {
-            try {
-                while (!game.isGameOver()) {
-                    synchronized (game)
-                    {
-                        if (time.spawn(sinceLastSpawn.get())) {
-                            game.getMap().checkAttackZombie();
-                            game.spawnZombieinRow();
-                            sinceLastSpawn.set(time.getCurrentTime());
-                        }
-                        game.getMap().checkAttackZombie();
-                        game.getMap().checkMove(game);
-                    }
-                    Thread.sleep(1000); // Perbarui setiap detik
-                }
-            } catch (InterruptedException e) {
-                System.out.println("Zombie loop interrupted");
-            }
-        });
-        
-        // Thread untuk aksi Plant
-        Thread plantThread = new Thread(() -> {
-            try {
-                while (!game.isGameOver()) {
-                    synchronized(game)
-                    {
-                        game.getMap().checkAttackPlant();
-                        game.getMap().checkSkillPlant();
-
-                    }
-                    Thread.sleep(1000); // Perbarui setiap detik
-                }
-            } catch (InterruptedException e) {
-                System.out.println("Plant loop interrupted");
-            }
-        });
-        
-        Thread gameThread = new Thread(() -> {
-            try {
-                while (!game.isGameOver()) {
-                    System.out.println("detik ke"+time.getElapsedTime()/1000);
-
-                    sun.generateSun();
-                    if(game.isGameOver())
-                    {
-                        zombieThread.interrupt();
-                        plantThread.interrupt();
-                    }
-
-                    // game.getMap().printMap();
-                    Thread.sleep(1000); // Perbarui setiap detik
-                }
-            } catch (InterruptedException e) {
-                System.out.println("Game loop interrupted");
-            }
-        });
-        System.out.println(RED + "Grrrrr... Ssssshhh... Rrrrrr...");
-        System.out.println("Hi, There! Who's playing?\n");
-        System.out.print(RESET + "Enter your name: " + GREEN);
-        String userName = scanner.nextLine();
-
-        System.out.println(RESET + "\nWelcome, " + GREEN + userName + RESET + "!");
-        System.out.println(YELLOW + "\nMAIN MENU" + RESET);
+        System.out.println("Welcome to Plants vs Zombies!");
+        System.out.println("Here are some commands to get you started");
         
         // Thread utama untuk menerima input dari pengguna
         boolean isRunning = true;
@@ -135,16 +69,10 @@ public class Main {
                     isRunning = false;
                     break;
                 case "1":
-                    System.out.println("Building your deck");
-                    buildDeck(game);
-                    break;
-                case "2":
                     if (game.getDeck().isFull()) {
                         System.out.println("Game is starting.");
-                        gameThread.start();
-                        zombieThread.start();
-                        plantThread.start();
-                        Timer.setStartTime(time.getCurrentTime());
+                        game.gameReset();                  
+                        action.startGame(game);
                         while (!game.isGameOver() && isRunning) {
                             handleInput(game);
                         }
@@ -152,19 +80,26 @@ public class Main {
                         System.out.println("Deck is not full. Please build your deck first");
                     }
                     break;
+                case "2":
+                    System.out.println("Building your deck");
+                    buildDeck(game);
+                    break;
                 case "3":
                     game.getInventory().printInventory();
+                    printSwapSeedinInventory(game);
+                    break;
+                case "4":
+                    break;
+                case "5":
+                    printZombieList();
                 default:
                     handleInput(game);
                     game.printGame();
             }
         }
-        if (game.isGameOver() || !isRunning) {
-            System.out.println("Game Over!");
-            gameThread.interrupt();
-            zombieThread.interrupt();
-            plantThread.interrupt();
-            scanner.close();
+        if (!isRunning) {
+            System.out.println("See you next time!");
+            return;
         }
     }
 
@@ -174,24 +109,37 @@ public class Main {
         boolean isBuilding = true;
         while (isBuilding) {
             System.out.println("Build your deck");
+            System.out.println("0. Exit building deck");
             System.out.println("1. Add a seed");
             System.out.println("2. Remove a seed");
             System.out.println("3. Swap two seed");
-            System.out.println("4. Exit building deck");
             String input = scanner.nextLine();
             switch (input) {
                 case "1":
                     boolean isAdding = true;
                     while (isAdding) {
+                        Integer seed;
+                        while (true) {
                         System.out.println("Pick a seed");
                         inventory.printInventory();
                         deck.printDeck();
-                        System.out.println("Enter 'exit' to stop adding seeds");
+                        System.out.println("Enter '0' to stop adding seeds");
                         // String seed = scanner.nextLine();
-                        Integer seed = scanner.nextInt();
+                            try {
+                                seed = scanner.nextInt();
+                                if (seed < 0 || seed > inventory.getSeeds().size()) {
+                                    System.out.println("Invalid input");
+                                } else {
+                                    break;
+                                }
+                            } catch (InputMismatchException e) {
+                                System.out.println("Invalid input");
+                                scanner.nextLine();
+                            }
+                        }
                         if (seed.equals(0)) {
                             isAdding = false;
-                        }
+                        } 
                         Seed seedInput = inventory.getSeedInt(seed);
                         try {
                             if (seedInput != null) {
@@ -232,7 +180,7 @@ public class Main {
                     }
                     deck.printDeck();
                     break;
-                case "4":
+                case "0":
                     isBuilding = false;
                     break;
                 default:
@@ -261,7 +209,7 @@ public class Main {
             String[] inputs = input.split(" ");
             if (inputs.length == 3) {
                 int row = Integer.parseInt(inputs[1]) - 1;
-                int col = Integer.parseInt(inputs[2]) - 1;
+                int col = Integer.parseInt(inputs[2]);
                 try {
                     game.getMap().getTile(row, col).removePlant();
                 } catch (Exception e) {
@@ -271,33 +219,11 @@ public class Main {
                 System.out.println("Invalid input");
             }
         } else if (input.equals("help")) {
-            System.out.println("List of commands:");
-            System.out.println("plant [row] [col] [type] - Plant a seed");
-            System.out.println("help - List of commands");
+            printHelp();
         } else if (input.equals("List plants")) {
-            System.out.println("List of plants:");
-            System.out.println("Peashooter");
-            System.out.println("Sunflower");
-            System.out.println("Wallnut");
-            System.out.println("Tallnut");
-            System.out.println("Squash");
-            System.out.println("Lilypad");
-            System.out.println("Kelp");
-            System.out.println("Snowpea");
-            System.out.println("Sunbean");
-            System.out.println("Jalapeno");
+            game.getInventory().printInventory();
         } else if (input.equals("List zombies")) {
-            System.out.println("List of zombies:");
-            System.out.println("Normal Zombie");
-            System.out.println("Conehead Zombie");
-            System.out.println("Buckethead Zombie");
-            System.out.println("Digger Zombie");
-            System.out.println("Hulk Zombie");
-            System.out.println("Dolphin Rider Zombie");
-            System.out.println("Ducky Tube Zombie");
-            System.out.println("Trex Zombie");
-            System.out.println("Wizard Zombie");
-            System.out.println("Pole Vaulting Zombie");
+            printZombieList();
         } 
         else if (input.equals("exit")) {
             game.setGameOver(true);
@@ -305,6 +231,60 @@ public class Main {
         else if (input.equals("")) game.printGame();
         else {
             System.out.println("Invalid input");
+        }
+    }
+    public static void printZombieList() {
+        System.out.println("List of zombies:");
+        System.out.println("1. Normal Zombie");
+        System.out.println("2. Conehead Zombie");
+        System.out.println("3. Buckethead Zombie");
+        System.out.println("4. Digger Zombie");
+        System.out.println("5. Hulk Zombie");
+        System.out.println("6. Dolphin Rider Zombie");
+        System.out.println("7. Ducky Tube Zombie");
+        System.out.println("8. Trex Zombie");
+        System.out.println("9. Wizard Zombie");
+        System.out.println("10. Pole Vaulting Zombie");
+    }
+    public static void printHelp() {
+        System.out.println("List of commands in the main menu: ");
+        System.out.println("0. exit - Exit the game");
+        System.out.println("1. start - Start the game");
+        System.out.println("2. build deck -  Build your own deck");
+        System.out.println("3. open inventory - List of plants you can use");
+        System.out.println("4. help - list of commands");
+        System.out.println("5. plants list - Lists of plants you can use");
+        System.out.println("6. zombies list - List of zombies that can spawn");
+        System.out.println("List of commands in the game: ");
+        System.out.println("plant <row> <col> <plant type> - Plant a plant in a tile");
+        System.out.println("dig <row> <col> - Remove a plant from a tile");
+        System.out.println("help - List of commands");
+        System.out.println("exit - Exit the game");
+    }
+    public static void printSwapSeedinInventory(GameEntity game) {
+        System.out.println("Would you like to swap seeds? (y/n)");
+        while (true) {
+            String swap = scanner.nextLine();
+            if (swap.equals("y")) {
+                System.out.println("Enter the slot number of the seeds you want to swap");
+                game.getDeck().printDeck();
+                System.out.println("Seed 1:");
+                int x = scanner.nextInt();
+                System.out.println("Seed 2:");
+                int y = scanner.nextInt();
+                try {
+                    game.getInventory().swapSeeds(x-1, y-1);
+                    System.out.println("Swap successful!");
+                } catch (Exception e) {
+                    System.out.println(e.getMessage());
+                }
+                game.getInventory().printInventory();
+                break;
+            } else if (swap.equals("n")) {
+                break;
+            } else {
+                System.out.println("Invalid input");
+            }
         }
     }
 }
