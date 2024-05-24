@@ -19,7 +19,7 @@ public class Pool extends Tile {
     }
     @Override
     public boolean isPlantValid(Plant plant){
-        if((plant instanceof Lilypad && !hasLilypad) || plant.isAquatic() && hasLilypad()) return true;
+        if((plant instanceof Lilypad && !hasLilypad) || (!plant.isAquatic() && hasLilypad()) || (plant.isAquatic() && !isOccupiedByPlant())) return true;
         return false;
     }
     @Override
@@ -28,9 +28,11 @@ public class Pool extends Tile {
             if(plant instanceof Lilypad){
                 hasLilypad=true;
                 super.addPlant(plant);
-            } else if (hasLilypad() && plant.isAquatic()){
+            } else if (hasLilypad() && !plant.isAquatic()){
                 // super.addPlant(combinePlant(plant));
                 combinePlant(plant);
+            } else if (plant.isAquatic() && !isOccupiedByPlant()){
+                super.addPlant(plant);
             }
             else{
                 throw new IllegalPlantingException("Plant is not valid");

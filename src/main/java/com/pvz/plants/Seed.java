@@ -25,8 +25,9 @@ public class Seed {
     public boolean isOnCooldown() {
         if (time.getCurrentTime() - lastUsed < type.getCooldown()*1000) {
             onCooldown = true;
+        } else {
+            onCooldown = false;
         }
-        onCooldown = false;
         return onCooldown;
     }
 
