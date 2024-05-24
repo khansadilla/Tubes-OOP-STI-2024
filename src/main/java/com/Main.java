@@ -111,18 +111,24 @@ public class Main {
                 System.out.println("Game loop interrupted");
             }
         });
-        System.out.println("Welcome to Plants vs Zombies!");
-        System.out.println("Here are some commands to get you started");
+        System.out.println(RED + "Grrrrr... Ssssshhh... Rrrrrr...");
+        System.out.println("Hi, There! Who's playing?\n");
+        System.out.print(RESET + "Enter your name: " + GREEN);
+        String userName = scanner.nextLine();
+
+        System.out.println(RESET + "\nWelcome, " + GREEN + userName + RESET + "!");
+        System.out.println(YELLOW + "\nMAIN MENU" + RESET);
         
         // Thread utama untuk menerima input dari pengguna
         boolean isRunning = true;
         while (isRunning && !game.isGameOver()) {
-            System.out.println("0. exit - Exit the game");
-            System.out.println("1. Build deck -  Build your own deck");
-            System.out.println("2. start - Start the game");
-            System.out.println("3. help - list of commands");
-            System.out.println("4. plants list - Lists of plants you can use");
-            System.out.println("5. zombies list - List of zombies that can spawn");
+            System.out.println("0. EXIT - Exit the game");
+            System.out.println("1. BUILD DECK -  Build your own deck");
+            System.out.println("2. START - Start the game");
+            System.out.println("3. HELP - list of commands");
+            System.out.println("4. LIST OF PLANTS - List of plants you can use");
+            System.out.println("5. LIST OF ZOMBIES - List of zombies that can spawn");
+            System.out.print(YELLOW + "\nInput your command: " + RESET);
             String userInput = scanner.nextLine();
             switch (userInput) {
                 case "0":
