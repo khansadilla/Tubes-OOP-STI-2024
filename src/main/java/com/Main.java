@@ -5,7 +5,6 @@ import com.pvz.plants.Seed;
 
 import java.util.InputMismatchException;
 import java.util.Scanner;
-import java.util.concurrent.atomic.AtomicLong;
 
 public class Main {
     public static final String RESET = "\033[0m"; // Text Reset
@@ -158,7 +157,7 @@ public class Main {
                     System.out.println("Remove a seed");
                     System.out.println("Select a slot to remove:");
                     deck.printDeck();
-                    int slot = scanner.nextInt();
+                    int slot = scanner.nextInt()-1;
                     try {
                         deck.removeSeed(slot);
                     } catch (Exception e) {
