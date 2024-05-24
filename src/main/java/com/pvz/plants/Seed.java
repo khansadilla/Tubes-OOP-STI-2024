@@ -5,6 +5,7 @@ public class Seed {
     private PlantType type;
     private boolean onCooldown;
     private long lastUsed;
+    private int cost;
     private Timer time=Timer.getInstance();
     public Seed(PlantType type) {
         this.type = type;
@@ -22,6 +23,10 @@ public class Seed {
         return lastUsed;
     }
     
+    public int getCost() {
+        return type.getCost();
+    }
+
     public boolean isOnCooldown() {
         if (time.getCurrentTime() - lastUsed < type.getCooldown()) {
             onCooldown = true;

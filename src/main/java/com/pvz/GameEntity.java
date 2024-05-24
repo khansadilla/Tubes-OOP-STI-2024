@@ -36,11 +36,12 @@ public class GameEntity {
     public void gameReset()
     {
         this.map = new Map(6, 11); 
-        this.sun = Sun.getInstance();
+        this.sun.setValue(50);
         this.random = new Random();
         this.isGameOver = false;
         this.timer = Timer.getInstance();
         this.zombieFactory = new ZombieFactory();
+        Zombie.setTotalZombie(0);
     }
     public int getSun() {
         return sun.getValue();
@@ -73,6 +74,29 @@ public class GameEntity {
             if(map.getTile(i, 0).isOccupiedByZombie()) isGameOver = true;
         }
     }
+
+    public void update()
+    {
+        for (int i=0; i<6; i++)
+        {
+            for (int j=1; j<map.getWidth()-1; j++)
+            {
+                Tile tile=map.getTile(i, j);
+                if(tile.isOccupiedByPlant())
+                {
+                    Plant plant = tile.getPlant();
+                    if(plant.getHealth()<=0) tile.removePlant();
+                }
+                if(tile.isOccupiedByZombie())
+                {
+                    for(Zombie zombie : tile.getListZombie())
+                    {
+                        if(zombie.getHealth()<=0) tile.removeZombie(zombie);
+                    }
+                }
+            }
+        }
+    }
     public boolean isGameOver() {
         return isGameOver;
     }
@@ -90,10 +114,10 @@ public class GameEntity {
         deck.removeSeed(slot);
     }
     
-    public void plant(int row, int col, String type) throws IllegalArgumentException, IllegalPlantingException{
+    public void plant(int row, int col, int type) throws IllegalArgumentException, IllegalPlantingException{
         Plant plant = null;
         try {
-            plant = deck.getPlant(type);
+            plant = deck.getPlantInt(type);
 
         } catch (CooldownException e) {
             // System.out.println(e.getMessage());
@@ -126,6 +150,7 @@ public class GameEntity {
             spawnRoll = random.nextFloat(); // 0.0 < spawnRoll < 1.0
             
             if (spawnRoll < 0.3 && Zombie.getTotalZombie()<10) {  // 30% chance
+                System.out.println("Ini jumlah zombie :"+Zombie.getTotalZombie());
                 if (tile instanceof Pool) {
                     tile.addZombie(spawnZombiePool());
                     Zombie.setTotalZombie(Zombie.getTotalZombie()+1);
