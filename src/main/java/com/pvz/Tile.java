@@ -53,6 +53,10 @@ public abstract class Tile {
         plant = null;
     }
 
+    public void removeZombie(Zombie zombie)
+    {
+        ZombieList.remove(zombie);
+    }
     public List<Zombie> moveZombie() {
         List<Zombie> movZombies = new ArrayList<>();
         List<Zombie> toRemove = new ArrayList<>();
@@ -76,8 +80,6 @@ public abstract class Tile {
                 zombie.setSinceLastAttack(time.getCurrentTime());
             }
         }
-        if (plant.getHealth() <= 0)
-            plant = null;
     }
 
     public Plant getPlant() {

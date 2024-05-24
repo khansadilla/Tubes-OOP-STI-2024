@@ -171,8 +171,9 @@ public class Map {
                 if (tiles[row][col].isOccupiedByPlant()) {
                     Plant plant = tiles[row][col].getPlant();
                     if (plant instanceof Jalapeno) {
-                        ((Jalapeno) plant).skill(this, row);
-                        ((Jalapeno) plant).selfDestruct();
+                        ((Jalapeno) plant).skill(this, row, col);
+                        // ((Jalapeno) plant).selfDestruct();
+                        
                     } else if (plant instanceof Sunbean) {
                         Zombie infected = null;
                         for (int i = col; i < width; i++) {

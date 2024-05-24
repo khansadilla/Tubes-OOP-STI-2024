@@ -54,7 +54,7 @@ public class Main {
         
         // Thread utama untuk menerima input dari pengguna
         boolean isRunning = true;
-        while (isRunning && !game.isGameOver()) {
+        while (isRunning) {
             System.out.println("0. EXIT - Exit the game");
             System.out.println("1. START - Start the game");
             System.out.println("2. BUILD DECK -  Build your own deck");
@@ -84,10 +84,11 @@ public class Main {
                     buildDeck(game);
                     break;
                 case "3":
-                    game.getInventory().printInventory();
-                    printSwapSeedinInventory(game);
+                    printHelp();
                     break;
                 case "4":
+                    game.getInventory().printInventory();
+                    printSwapSeedinInventory(game);
                     break;
                 case "5":
                     printZombieList();
@@ -195,7 +196,13 @@ public class Main {
             if (inputs.length == 4) {
                 int row = Integer.parseInt(inputs[1]) - 1;
                 int col = Integer.parseInt(inputs[2]);
-                String type = inputs[3];
+                // String type = inputs[3];
+                int type = -1;
+                try {
+                    type = Integer.parseInt(inputs[3]);
+                } catch (NumberFormatException e) {
+                    System.out.println("Invalid input");
+                }
                 try {
                     game.plant(row, col, type);
                 } catch (Exception e) {
@@ -220,7 +227,7 @@ public class Main {
         } else if (input.equals("help")) {
             printHelp();
         } else if (input.equals("List plants")) {
-            game.getInventory().printInventory();
+            game.getDeck().printDeck();
         } else if (input.equals("List zombies")) {
             printZombieList();
         } 
@@ -246,6 +253,7 @@ public class Main {
         System.out.println("10. Pole Vaulting Zombie");
     }
     public static void printHelp() {
+        System.out.println("Defend your house from zombies by planting plants in your garden");
         System.out.println("List of commands in the main menu: ");
         System.out.println("0. exit - Exit the game");
         System.out.println("1. start - Start the game");

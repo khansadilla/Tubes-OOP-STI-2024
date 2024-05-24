@@ -11,7 +11,6 @@ public class Action {
     public void startGame(GameEntity game)
     {
         Sun sun = Sun.getInstance();
-        
         AtomicLong sinceLastSpawn = new AtomicLong(0);
         Timer time = Timer.getInstance();
         
@@ -57,6 +56,7 @@ public class Action {
                 while (!game.isGameOver()) {
                     sun.generateSun();
                     game.checkGameOver();
+                    game.update();
                     if(game.isGameOver())
                     {
                         zombieThread.interrupt();

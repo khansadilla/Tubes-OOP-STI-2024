@@ -52,6 +52,28 @@ public class Deck {
         return null;
     }
 
+    public Plant getPlantInt(int slot) throws CooldownException {
+        Plant plant = null;
+        try {
+            if (slot < 1 || slot > seeds.size()) {
+                System.out.println("Invalid slot number");
+            }
+            Seed seed = seeds.get(slot - 1);
+            if (seed.isOnCooldown()) {
+                // System.out.println("Plant is on cooldown");
+                throw new CooldownException("Plant is on cooldown");
+            } else {
+                plant = plantFactory.create(System.currentTimeMillis(), seed.getType().getName());
+                seed.setLastUsed(timer.getCurrentTime());
+            }
+        } catch (IllegalTypeException e) {
+            System.out.println(e.getMessage());
+        } catch (CooldownException e) {
+            System.out.println(e.getMessage());
+        }
+        return plant;
+    }
+
     public ArrayList<Seed> getSeeds() {
         return seeds;
     }

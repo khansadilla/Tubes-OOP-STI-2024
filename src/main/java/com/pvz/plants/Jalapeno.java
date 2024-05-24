@@ -16,9 +16,9 @@ public class Jalapeno extends Plant{
         this.setHealth(0);
     }
 
-    public void skill(Map map, int row) {
+    public void skill(Map map, int row, int col) {
         List<Zombie> toRemove = new ArrayList<>();
-        for (int i = 1; i < map.getWidth(); i++) {
+        for (int i = 1; i < map.getWidth()-1; i++) {
             Tile attackZombieAt= map.getTiles()[row][i];
             for (Zombie zombie : attackZombieAt.getListZombie()) {
                 toRemove.add(zombie);
@@ -26,6 +26,7 @@ public class Jalapeno extends Plant{
             Zombie.setTotalZombie(Zombie.getTotalZombie()-toRemove.size());
             attackZombieAt.getListZombie().removeAll(toRemove);
         }
+        map.getTile(row, col).setPlant(null);
     }
 }
 
